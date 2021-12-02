@@ -1,6 +1,6 @@
 package api;
 
-public class imGeo implements GeoLocation{
+public class Geo implements GeoLocation{
 
     double _x;
     double _y;

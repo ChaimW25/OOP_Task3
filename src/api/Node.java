@@ -1,6 +1,6 @@
 package api;
 
-public class  imNode implements NodeData {
+public class Node implements NodeData {
 
     GeoLocation _pos;
     int _id;
@@ -8,8 +8,9 @@ public class  imNode implements NodeData {
     String _info;
     int _tag;
 
-    public imNode(){
-
+    public Node(int id, String pos){
+        this._pos = new Geo(pos);
+        this._id = id;
     }
 
 

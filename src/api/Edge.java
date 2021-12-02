@@ -1,6 +1,6 @@
 package api;
 
-public class imEdge implements EdgeData {
+public class Edge implements EdgeData {
     int _src;
     int _dest;
     double _w;
@@ -8,8 +8,10 @@ public class imEdge implements EdgeData {
     int _tag;
 
 
-    public imEdge(){
-
+    public Edge(int src, int dest, double w){
+        _src = src;
+        _dest = dest;
+        _w = w;
     }
 
     @Override

@@ -1,8 +1,6 @@
 package api;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class DWGAlgo implements DirectedWeightedGraphAlgorithms{
 
@@ -60,12 +58,37 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms{
 
     @Override
     public double shortestPathDist(int src, int dest) {
-        return 0;
+        //if one of the nodes don't exist.
+        if (graph.getNode(src) == null || graph.getNode(dest) == null)
+            return -1;
+        //if src and dest are the same node.
+        if (src == dest)
+            return 0;
+        //else:
+        dijkstra(src, dest);
+        return graph.getNode(dest).getWeight();
     }
 
     @Override
     public List<NodeData> shortestPath(int src, int dest) {
-        return null;
+        List<NodeData> shortestPath = new ArrayList<>();
+        //if src and dest are the same node:
+        if (src == dest) {
+            shortestPath.add(graph.getNode(src));
+            return shortestPath;
+        }
+        dijkstra(src, dest);
+        //if no such path:
+        if (graph.getNode(dest).getWeight() == -1)
+            return null;
+        int temp = dest;
+        shortestPath.add(graph.getNode(temp));
+        while (temp != src){
+            temp = graph.getNode(temp).getTag();
+            shortestPath.add(graph.getNode(temp));
+        }
+        Collections.reverse(shortestPath);
+        return shortestPath;
     }
 
     @Override
@@ -141,5 +164,66 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms{
             transposeG.connect(tempIter.getDest(), tempIter.getSrc(), tempIter.getWeight());
             }
         return transposeG;
+    }
+
+    /*
+    dijkstra's algorithm is an algorithm for finding the shortest paths
+    between nodes in a graph. We used this algorithm to calculate the functions
+    shortestPathDist and shortestPath.
+     */
+    private void dijkstra(int src, int dest) {
+        initTIW();
+        PriorityQueue<NodeData> queue = new PriorityQueue<>(new weightComp());
+        graph.getNode(src).setWeight(0);
+        queue.add(graph.getNode(src));
+        while (!queue.isEmpty()) {
+            NodeData u = queue.poll();
+            if (u.getInfo() == null) {       //true if we didn't visit this node
+                u.setInfo("v");
+                if (u.getKey() == dest)     //when we get to dest node
+                    return;
+                Iterator<EdgeData> edgeIter = graph.edgeIter(u.getKey());
+                while (edgeIter.hasNext())  //iteration on all edges coming out of u.
+                {
+                    EdgeData tempEdge = edgeIter.next();
+                    NodeData tempNode = graph.getNode(tempEdge.getDest());
+
+                    if (tempNode.getInfo() == null) {                //true if we didn't visit this node
+                        double w = tempEdge.getWeight() + u.getWeight();
+                        if (tempNode.getWeight() != -1) {
+                            if (w < tempNode.getWeight()) {             //if the new weight is less then the exist
+                                tempNode.setWeight(w);
+                                tempNode.setTag(u.getKey());
+                            }
+                        } else {                                    //if it's first time we reach to this node
+                            tempNode.setWeight(w);
+                            tempNode.setTag(u.getKey());
+                        }
+                        queue.add(tempNode);
+                    }
+                }
+            }
+        }
+    }
+
+    private static class weightComp implements Comparator<NodeData> {
+        @Override
+        public int compare(NodeData node1, NodeData node2) {
+            if (node1.getWeight() == node2.getWeight())
+                return 0;
+            if (node1.getWeight() > node2.getWeight())
+                return 1;
+            return -1;
+        }
+    }
+
+    public void initTIW(){
+        Iterator<NodeData> iterGraph = graph.nodeIter();
+        while (iterGraph.hasNext()){
+            NodeData tempNode = iterGraph.next();
+            tempNode.setTag(-1);
+            tempNode.setInfo(null);
+            tempNode.setWeight(-1);
+        }
     }
 }

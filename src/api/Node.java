@@ -58,4 +58,8 @@ public class Node implements NodeData {
     public void setTag(int t) {
         _tag=t;
     }
+
+    public String toString(){
+        return "Node: id=" + _id + ", pos=" + _pos.toString() + " + tag:" + _tag;
+    }
 }

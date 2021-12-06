@@ -29,15 +29,18 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms{
 
     @Override
     public boolean isConnected() {
-
+        resetTag();
         if (graph != null) {
-
             DirectedWeightedGraph transposeGraph = transpose(graph);
+//            System.out.println("graph:" +graph);
+//            System.out.println("Tgraph:" +transposeGraph);
             Iterator<NodeData> iter = graph.nodeIter();
 //            if (iter.hasNext()){
-                NodeData firstNode = iter.next();
-                BFS(firstNode, graph);
-                BFS(firstNode, transposeGraph);
+            NodeData firstNode = iter.next();
+            BFS(firstNode, graph);
+            Iterator<NodeData> iterSecond = transposeGraph.nodeIter();
+            NodeData firstNode2 = iterSecond.next();
+            BFS(firstNode2, transposeGraph);
 //            }
             Iterator<NodeData> iterGraph = graph.nodeIter();
             while (iterGraph.hasNext()){
@@ -85,11 +88,21 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms{
         return false;
     }
 
+    public String toString(){
+        return graph.toString();
+    }
+
+    public void resetTag(){
+        Iterator<NodeData> iterGraph = graph.nodeIter();
+        while (iterGraph.hasNext()){
+            iterGraph.next().setTag(0);
+            }
+    }
 
     // prints BFS traversal from a given source s
     public void BFS(NodeData s, DirectedWeightedGraph g) {
-
-        LinkedList<NodeData> queue = new LinkedList<NodeData>();
+        resetTag();
+        LinkedList<NodeData> queue = new LinkedList<>();
 
         // Mark the current node as visited and enqueue it
         s.setTag(1);

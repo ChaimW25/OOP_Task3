@@ -117,6 +117,13 @@ class DWGraphTest {
         assertNull(graph.removeEdge(0, 1));
         assertEquals(3,  graph.edgeSize());
         assertNull(graph.removeEdge(2, 1));
+        Iterator<EdgeData> iter = graph.edgeIter();
+        int i = 1;
+        while (iter.hasNext()){
+            EdgeData edge = iter.next();
+            assertEquals(i, edge.getSrc());
+            i++;
+        }
     }
 
     @Test
@@ -135,7 +142,6 @@ class DWGraphTest {
         graph.connect(0, 2, 1);
         graph.connect(0, 3, 1);
         assertEquals(6, graph.edgeSize());
-//        לא עובדים. צריך לעבור עם איטרטור
         graph.removeNode(0);
         assertEquals(2, graph.edgeSize());
 

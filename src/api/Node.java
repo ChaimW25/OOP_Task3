@@ -1,5 +1,9 @@
 package api;
 
+import com.google.gson.*;
+
+import java.lang.reflect.Type;
+
 public class Node implements NodeData {
 
     GeoLocation _pos;
@@ -61,5 +65,30 @@ public class Node implements NodeData {
 
     public String toString(){
         return "Node: id=" + _id + ", pos=" + _pos.toString() + " + tag:" + _tag;
+    }
+
+    static class NodeDataJson implements JsonDeserializer<NodeData>, JsonSerializer<NodeData> {
+
+        @Override
+        public NodeData deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+            int id = jsonElement.getAsJsonObject().get("id").getAsInt();
+            String pos = jsonElement.getAsJsonObject().get("pos").getAsString();
+//            String [] arr=geoL.split(",");
+//            double x=Double.parseDouble(arr[0]);
+//            double y=Double.parseDouble(arr[1]);
+//            double z=Double.parseDouble(arr[2]);
+//            NodeData n=new Node(key,x,y,z);
+            NodeData n = new Node(id,pos);
+            return n;
+        }
+
+        @Override
+        public JsonElement serialize(NodeData n, Type type, JsonSerializationContext jsonSerializationContext) {
+            JsonObject nodeJson = new JsonObject();
+//            nodeJson.addProperty("pos", n.getLocation().toString());
+            nodeJson.addProperty("pos", n.getLocation().toString());
+            nodeJson.addProperty("id", n.getKey());
+            return nodeJson;
+        }
     }
 }

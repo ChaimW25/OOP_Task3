@@ -2,6 +2,10 @@ import api.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -212,5 +216,56 @@ class DWGAlgoTest {
         sl.add(graph.getNode(4));
         sl.add(graph.getNode(8));
         assertEquals(sl, ga.shortestPath(1, 8), "is fuction shortestPathDist not working properly");
+    }
+
+    @Test
+    void save() {
+        String path = "G1.json";
+        DirectedWeightedGraphAlgorithms ga = new DWGAlgo();
+        DirectedWeightedGraph g = new DWGraph();
+        ga.init(g);
+        for (int i = 0; i < 5; i++) {
+            g.addNode(new Node(i, "0,0,0"));
+        }
+        g.connect(0, 1, 5.265);
+        g.connect(1, 0, 8.965);
+        g.connect(3, 4, 12.54);
+        g.connect(2, 4, 1.1);
+        g.connect(0, 4, 3.2);
+        ga.save(path);
+    }
+
+    @Test
+    void load() {
+        String path = System.getProperty("user.dir") + "\\data\\";
+        DirectedWeightedGraphAlgorithms ga = new DWGAlgo();
+        for (int i = 1; i <= 3; i++) {
+            ga.load(path + "G" + i + ".json");
+            System.out.println(ga.getGraph() + "\n");
+        }
+    }
+
+    @Test
+    void save_load() {
+        String path = System.getProperty("user.dir") + "\\data\\";
+        DirectedWeightedGraphAlgorithms ga = new DWGAlgo();
+        for (int i = 1; i <= 3; i++) {
+            ga.load(path + "G" + i + ".json");
+            ga.save(path + "B" + i + ".json");
+            System.out.println(ga.getGraph());
+            Path G = Paths.get(path + "G" + i + ".json");
+            Path B = Paths.get(path + "B" + i + ".json");
+            String strG = "";
+            String strB = "";
+            try {
+                strG = new String(Files.readAllBytes(G));
+                strB = new String(Files.readAllBytes(B));
+            } catch (IOException e) {
+                e.printStackTrace();
+                fail("fail to read file!");
+            }
+            if (!strG.equals(strB)) fail("not same file: G" + i + " != B" + i);
+            assertEquals(strG, strB);
+        }
     }
 }

@@ -1,5 +1,8 @@
 package api;
 
+import com.google.gson.*;
+import java.lang.reflect.Type;
+
 public class Edge implements EdgeData {
     private int _src;
     private int _dest;
@@ -51,5 +54,28 @@ public class Edge implements EdgeData {
 
     public String toString(){
         return "src=" + _src + ", dest=" + _dest + ", weight=" +_w;
+    }
+
+    static class EdgeDataJson implements JsonDeserializer<EdgeData>, JsonSerializer<EdgeData>
+    {
+
+        @Override
+        public EdgeData deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+            int src = jsonElement.getAsJsonObject().get("src").getAsInt();
+            double weight = jsonElement.getAsJsonObject().get("w").getAsDouble();
+            int dest = jsonElement.getAsJsonObject().get("dest").getAsInt();
+            return new Edge(src,dest,weight);
+        }
+
+
+        @Override
+        public JsonElement serialize(EdgeData e, Type type, JsonSerializationContext jsonSerializationContext)
+        {
+            JsonObject edgeJson = new JsonObject();
+            edgeJson.addProperty("src", e.getSrc());
+            edgeJson.addProperty("w",e.getWeight());
+            edgeJson.addProperty("dest",e.getDest());
+            return edgeJson;
+        }
     }
 }

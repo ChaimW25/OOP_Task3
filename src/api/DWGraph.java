@@ -1,6 +1,8 @@
 package api;
 
 import java.util.*;
+import com.google.gson.*;
+import java.lang.reflect.Type;
 
 
 public class DWGraph implements DirectedWeightedGraph {
@@ -19,20 +21,6 @@ public class DWGraph implements DirectedWeightedGraph {
         Edges = new HashMap<>();
         destToSrc = new HashMap<>();
     }
-
-//    public DWGraph(DWGraph g) {
-//        NodesCopy = new HashMap<>();
-//        EdgesCopy = new HashMap<>();
-//        destToSrcCopy = new HashMap<>();
-//        for (NodeData i : g.getV()) {
-//            _graphNodes.put(i.getKey(), new NodeData(i));
-//        }
-//        for (node_data i : g.getV()) {
-//            for (edge_data j : g.getE(i.getKey())) {
-//                connect(i.getKey(), j.getDest(), g.getEdge(i.getKey(), j.getDest()).getWeight());
-//            }
-//        }
-//    }
 
     @Override
     public NodeData getNode(int key) {
@@ -158,45 +146,48 @@ public class DWGraph implements DirectedWeightedGraph {
         return "Edges:" + Edges.toString() + ", Nodes:" + Nodes.toString();
     }
 
-//
-//        public class DWGraph_DSJson implements JsonSerializer<DirectedWeightedGraph>, JsonDeserializer<DirectedWeightedGraph> {
-//
-//            Node.NodeDataJson nodeJson = new Node.NodeDataJson();
-//            Edge.EdgeDataJson edgeJson = new Edge.EdgeDataJson();
-//
-//            @Override
-//            public DirectedWeightedGraph deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-//                DirectedWeightedGraph graph = new DWGraph();
-//                JsonArray nodes = jsonElement.getAsJsonObject().get("Nodes").getAsJsonArray();
-//                JsonArray edges = jsonElement.getAsJsonObject().get("Edges").getAsJsonArray();
-//                for (JsonElement je : nodes) {
-//                    graph.addNode(nodeJson.deserialize(je, type, jsonDeserializationContext));
-//                }
-//
-//                for (JsonElement je : edges) {
-//                    int s = je.getAsJsonObject().get("src").getAsInt();
-//                    int d = je.getAsJsonObject().get("dest").getAsInt();
-//                    double w = je.getAsJsonObject().get("w").getAsDouble();
-//                    graph.connect(s, d, w);
-//                }
-//                return graph;
-//            }
-//
-//            @Override
-//            public JsonElement serialize(DWGraph graph, Type type, JsonSerializationContext jsonSerializationContext) {
-//                JsonObject graphJson = new JsonObject();
-//                JsonArray nodes = new JsonArray();
-//                JsonArray edges = new JsonArray();
-//                for (n : graph.getNodesList().values()) {
-//                    nodes.add(nodeJson.serialize(n, type, jsonSerializationContext));
-//                    for (EdgeData e : DWGraph.) {
-//                        edges.add(edgeJson.serialize(e, type, jsonSerializationContext));
-//                    }
-//                }
-//                graphJson.add("Edges", edges);
-//                graphJson.add("Nodes", nodes);
-//                return graphJson;
-//            }
-//        }
-//    }
+    public static class DWGraph_DSJson implements JsonSerializer<DirectedWeightedGraph>, JsonDeserializer<DirectedWeightedGraph> {
+
+        Node.NodeDataJson nodeJson = new Node.NodeDataJson();
+        Edge.EdgeDataJson edgeJson = new Edge.EdgeDataJson();
+
+        @Override
+        public DirectedWeightedGraph deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+            DirectedWeightedGraph graph = new DWGraph();
+            JsonArray nodes=jsonElement.getAsJsonObject().get("Nodes").getAsJsonArray();
+            JsonArray edges=jsonElement.getAsJsonObject().get("Edges").getAsJsonArray();
+            for(JsonElement je: nodes)
+            {
+                graph.addNode(nodeJson.deserialize(je,type,jsonDeserializationContext));
+            }
+
+            for(JsonElement je: edges)
+            {
+                int s=je.getAsJsonObject().get("src").getAsInt();
+                int d=je.getAsJsonObject().get("dest").getAsInt();
+                double w=je.getAsJsonObject().get("w").getAsDouble();
+                graph.connect(s,d,w);
+            }
+            return graph;
+        }
+
+        @Override
+        public JsonElement serialize(DirectedWeightedGraph graph, Type type, JsonSerializationContext jsonSerializationContext)
+        {
+            JsonObject graphJson=new JsonObject();
+            JsonArray nodes=new JsonArray();
+            JsonArray edges=new JsonArray();
+            Iterator<NodeData> nodeIter = graph.nodeIter();
+            while (nodeIter.hasNext()){
+                nodes.add(nodeJson.serialize(nodeIter.next(), type, jsonSerializationContext));
+            }
+            Iterator<EdgeData> edgeIter = graph.edgeIter();
+            while (edgeIter.hasNext()){
+                edges.add(edgeJson.serialize(edgeIter.next(),type,jsonSerializationContext));
+            }
+            graphJson.add("Edges",edges);
+            graphJson.add("Nodes",nodes);
+            return graphJson;
+        }
+    }
 }

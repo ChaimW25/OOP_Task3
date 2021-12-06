@@ -1,5 +1,9 @@
 package api;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.*;
 import java.util.*;
 
 public class DWGAlgo implements DirectedWeightedGraphAlgorithms{
@@ -103,13 +107,42 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms{
 
     @Override
     public boolean save(String file) {
+        try {
+            GsonBuilder gson =new GsonBuilder();
+            gson.registerTypeAdapter(DWGraph.class, new DWGraph.DWGraph_DSJson());
+            Gson g= gson.create();
+            PrintWriter gFile=new PrintWriter(new File(file));
+            gFile.write(g.toJson(graph));
+            gFile.close();
+            return true;
+        }
+        catch (FileNotFoundException e)
+        {
+            System.out.println("can't write the graph to a file ");
+            e.printStackTrace();
+        }
         return false;
     }
 
+
     @Override
     public boolean load(String file) {
-        return false;
-    }
+
+        try {
+            GsonBuilder builder=new GsonBuilder();
+            builder.registerTypeAdapter(DWGraph.class, new DWGraph.DWGraph_DSJson());
+            Gson gson=builder.create();
+            BufferedReader gFile = new BufferedReader(new FileReader(file));
+            DWGraph g=gson.fromJson(gFile,DWGraph.class);
+            init(g);
+            return true;
+        }
+        catch (FileNotFoundException e)
+        {
+            System.out.println("can't read the graph from the file");
+            e.printStackTrace();
+        }
+        return false;    }
 
     public String toString(){
         return graph.toString();

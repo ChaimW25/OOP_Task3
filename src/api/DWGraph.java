@@ -20,6 +20,20 @@ public class DWGraph implements DirectedWeightedGraph {
         destToSrc = new HashMap<>();
     }
 
+//    public DWGraph(DWGraph g) {
+//        NodesCopy = new HashMap<>();
+//        EdgesCopy = new HashMap<>();
+//        destToSrcCopy = new HashMap<>();
+//        for (NodeData i : g.getV()) {
+//            _graphNodes.put(i.getKey(), new NodeData(i));
+//        }
+//        for (node_data i : g.getV()) {
+//            for (edge_data j : g.getE(i.getKey())) {
+//                connect(i.getKey(), j.getDest(), g.getEdge(i.getKey(), j.getDest()).getWeight());
+//            }
+//        }
+//    }
+
     @Override
     public NodeData getNode(int key) {
         if (Nodes.containsKey(key))

@@ -1,7 +1,10 @@
 import api.DWGraph;
+import api.EdgeData;
 import api.Node;
 import api.NodeData;
 import org.junit.jupiter.api.Test;
+
+import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -76,6 +79,15 @@ class DWGraphTest {
 
     @Test
     void edgeIter() {
+        DWGraph graph = startGraph();
+        Iterator<EdgeData> iter = graph.edgeIter();
+        for (int i = 0; i < 4; i++) {
+            EdgeData tempIter = iter.next();
+            assertEquals(i,  tempIter.getSrc());
+            if (i<3){
+                assertEquals(i+1,  tempIter.getDest());
+            }
+        }
     }
 
     @Test

@@ -29,7 +29,30 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms{
 
     @Override
     public boolean isConnected() {
-        return false;
+
+        if (graph != null) {
+
+            DirectedWeightedGraph transposeGraph = transpose(graph);
+            Iterator<NodeData> iter = graph.nodeIter();
+//            if (iter.hasNext()){
+                NodeData firstNode = iter.next();
+                BFS(firstNode, graph);
+                BFS(firstNode, transposeGraph);
+//            }
+            Iterator<NodeData> iterGraph = graph.nodeIter();
+            while (iterGraph.hasNext()){
+                if(iterGraph.next().getTag() == 0){
+                    return false;
+                }
+            }
+            Iterator<NodeData> iterTranspose = transposeGraph.nodeIter();
+            while (iterTranspose.hasNext()){
+                if(iterTranspose.next().getTag() == 0){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     @Override
@@ -64,7 +87,7 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms{
 
 
     // prints BFS traversal from a given source s
-    public void BFS(NodeData s) {
+    public void BFS(NodeData s, DirectedWeightedGraph g) {
 
         LinkedList<NodeData> queue = new LinkedList<NodeData>();
 
@@ -80,10 +103,10 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms{
             // Get all adjacent vertices of the dequeued vertex s
             // If a adjacent has not been visited, then mark it
             // visited and enqueue it
-            Iterator<EdgeData> i = graph.edgeIter(curr.getKey());
+            Iterator<EdgeData> i = g.edgeIter(curr.getKey());
             while (i.hasNext())
             {
-                NodeData n = graph.getNode(i.next().getDest());
+                NodeData n = g.getNode(i.next().getDest());
                 if (n.getTag() != 1)
                 {
                     n.setTag(1);
@@ -93,15 +116,16 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms{
         }
     }
 
-    public DWGraph transpose(DWGraph g){
-        DWGraph transposeG = new DWGraph();
-        Iterator<NodeData> nodeIter = graph.nodeIter();
+    public DirectedWeightedGraph transpose(DirectedWeightedGraph g){
+        DirectedWeightedGraph transposeG = new DWGraph();
+        Iterator<NodeData> nodeIter = g.nodeIter();
         while (nodeIter.hasNext()) {
             transposeG.addNode(nodeIter.next());
         }
-        Iterator<EdgeData> edgeIter = graph.edgeIter();
+        Iterator<EdgeData> edgeIter = g.edgeIter();
         while (edgeIter.hasNext()) {
-            transposeG.connect(edgeIter.next().getDest(), edgeIter.next().getSrc(), edgeIter.next().getWeight());
+            EdgeData tempIter = edgeIter.next();
+            transposeG.connect(tempIter.getDest(), tempIter.getSrc(), tempIter.getWeight());
             }
         return transposeG;
     }

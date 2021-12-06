@@ -1,7 +1,4 @@
-import api.DWGAlgo;
-import api.DWGraph;
-import api.Node;
-import api.NodeData;
+import api.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -51,6 +48,13 @@ class DWGAlgoTest {
 
     @Test
     void isConnected() {
+        DWGAlgo graph = startAlgo();
+        assertTrue(graph.isConnected());
+        NodeData node4 = new Node(4, "1.0,2.0,0.0");
+        graph.getGraph().addNode(node4);
+//        graph.getGraph().removeEdge(2,3);
+        assertFalse(graph.isConnected());
+
     }
 
     @Test
@@ -85,7 +89,7 @@ class DWGAlgoTest {
         for (int i = 0; i < 5; i++){
             assertEquals(0, graph.getGraph().getNode(i).getTag());
         }
-        graph.BFS(graph.getGraph().getNode(0));
+        graph.BFS(graph.getGraph().getNode(0), graph.getGraph());
         for (int i = 0; i < 4; i++){
             assertEquals(1, graph.getGraph().getNode(i).getTag());
         }
@@ -95,12 +99,12 @@ class DWGAlgoTest {
     @Test
     void transpose(){
         DWGAlgo g = startAlgo();
-        DWGraph graph = startGraph();
-        DWGraph transposeGraph = g.transpose(graph);
+        DirectedWeightedGraph graph = startGraph();
+        DirectedWeightedGraph transposeGraph = g.transpose(graph);
         assertEquals(graph.getEdge(0,1).getWeight(), transposeGraph.getEdge(1,0).getWeight());
         for (int i = 0; i < 4; i++){
             assertEquals(graph.getNode(i).getKey(), transposeGraph.getNode(i).getKey());
         }
-//        assertEquals(graph.getEdge(0,1).getWeight(), transposeGraph.getEdge(1,0).getWeight());
+        assertEquals(graph.getEdge(0,1).getWeight(), transposeGraph.getEdge(1,0).getWeight());
     }
 }

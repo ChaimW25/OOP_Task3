@@ -2,10 +2,17 @@ package api;
 
 public class Geo implements GeoLocation{
 
-    double _x;
-    double _y;
-    double _z;
+    private double _x;
+    private double _y;
+    private double _z;
 
+    public Geo(String s){
+        String[] arr;
+        arr = s.split(",");
+        _x = (Double.parseDouble(arr[0]));
+        _y = (Double.parseDouble(arr[1]));
+        _z = (Double.parseDouble(arr[2]));
+    }
 
     @Override
     public double x() {
@@ -24,6 +31,14 @@ public class Geo implements GeoLocation{
 
     @Override
     public double distance(GeoLocation g) {
-        return 0;
+        double dx = _x - g.x();
+        double dy = _y - g.y();
+        double dz = _z - g.z();
+        double t = (dx*dx+dy*dy+dz*dz);
+        return Math.sqrt(t);
+    }
+
+    public String toString(){
+        return "x=" + _x + ", y=" + _y + ", z=" +_z;
     }
 }

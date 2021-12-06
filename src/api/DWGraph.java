@@ -1,10 +1,6 @@
 package api;
 
-import com.google.gson.*;
-
-import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 
 
 public class DWGraph implements DirectedWeightedGraph {
@@ -12,43 +8,57 @@ public class DWGraph implements DirectedWeightedGraph {
     // The key is the ID of the vertex and the value is the vertex itself (the NodeData).
     private HashMap<Integer, NodeData> Nodes;          //hashmap of all the nodes.
     private HashMap<Integer, HashMap<Integer, EdgeData>> Edges;   //every node has hashmap of his going out edges.
-    private HashMap<Integer, HashMap<Integer, Double>> destToSrc; // a map of incoming edges to the node .
-    int nodeCounter=0;
-    int edgeCounter=0;
-    int _mcCounter=0;
+    //    private HashMap<Integer, HashMap<Integer, Double>> destToSrc; // a map of incoming edges to the node .
+    private HashMap<Integer, HashMap<Integer, Integer>> destToSrc; // a map of incoming edges to the node .
+    private int _nodeCounter =0;
+    private int _edgeCounter =0;
+    private int _mcCounter=0;
 
     public DWGraph(){
         Nodes = new HashMap<>();
         Edges = new HashMap<>();
         destToSrc = new HashMap<>();
     }
+
     @Override
-    public NodeData getNode(int key)
-    {
-        return nodeList.get(key);
+    public NodeData getNode(int key) {
+        if (Nodes.containsKey(key))
+            return Nodes.get(key);
+        return null;
     }
 
     @Override
     public EdgeData getEdge(int src, int dest) {
-        return edgeList.get(src).get(dest);
+        if (Edges.containsKey(src)) {
+            if (Edges.get(src).containsKey(dest)) {
+                return Edges.get(src).get(dest);
+            }
+        }
+        return null;
     }
 
     @Override
     public void addNode(NodeData n) {
-        nodeList.put(n.getKey(), n);
-        _mcCounter++;
+        if (!Nodes.containsKey(n.getKey())){
+            Nodes.put(n.getKey(), n); //add n to Nodes.
+            HashMap<Integer, EdgeData> edges = new HashMap<>();
+            Edges.put(n.getKey(), edges);
+            destToSrc.put(n.getKey(), new HashMap<>());
+            _nodeCounter++;
+            _mcCounter++;
+        }
     }
 
     @Override
     public void connect(int src, int dest, double w) {
-        EdgeData newEdge = new Edge();
-        HashMap innerMap = Edges.get(src);
-        if (innerMap==null) {
-            innerMap = new HashMap<Integer,EdgeData>();
-            edgeList.put(src,innerMap);
+        if (src != dest && getNode(src) != null && getNode(dest) != null ) {
+            Edge newEdge = new Edge(src, dest, w);
+            if (Edges.get(src).containsKey(dest)) _edgeCounter--;
+            Edges.get(src).put(dest, newEdge);
+            destToSrc.get(dest).put(src, 0);
+            _edgeCounter++;
+            _mcCounter++;
         }
-        innerMap.put(dest,newEdge);
-        _mcCounter++;
     }
 
     @Override
@@ -58,30 +68,58 @@ public class DWGraph implements DirectedWeightedGraph {
 
     @Override
     public Iterator<EdgeData> edgeIter() {
-        return null;
+        List<EdgeData> ans  = new ArrayList<>();
+        for (NodeData n : Nodes.values()){
+            ans.addAll(Edges.get(n.getKey()).values());
+        }
+        return ans.iterator();
     }
 
     @Override
     public Iterator<EdgeData> edgeIter(int node_id) {
-        return null;
+        return Edges.get(node_id).values().iterator();
     }
 
     @Override
     public NodeData removeNode(int key) {
-        //dest is a problem!!!!!!!!!!!!!!
+        if (getNode(key) == null || Edges.get(key) == null){
+            return null;
+        }
+
+        HashMap<Integer, EdgeData> edgesOut = Edges.get(key); // make map for move on edge
+
+        for( int e : Edges.get(key).keySet()){
+//            Edges.get(key).remove(e);
+            _edgeCounter--;
+            _mcCounter++;
+        }
+
+        //remove node's in edges
+        for (int e : destToSrc.get(key).keySet()){
+//            Edges.get(e).remove(key);
+            _edgeCounter--;
+            _mcCounter++;
+        }
+        NodeData removeNode = Nodes.get(key);
+        Nodes.remove(key);
+        destToSrc.remove(key);
         _mcCounter++;
-        return null;
+        _nodeCounter--;
+        return removeNode;
     }
 
     @Override
     public EdgeData removeEdge(int src, int dest) {
-        HashMap innerMap = edgeList.get(src);
-
-        if (innerMap.get(dest)==null) {
+        if (Edges.get(src)==null) {
             return null;
         }
-        EdgeData deleteEdge = (EdgeData) innerMap.get(dest);
-        innerMap.remove(dest);
+        if (Edges.get(src).get(dest)==null) {
+            return null;
+        }
+        EdgeData deleteEdge = Edges.get(src).get(dest);
+        Edges.get(src).remove(dest);
+        destToSrc.get(dest).remove(src);
+        _edgeCounter--;
         _mcCounter++;
         return deleteEdge;
     }
@@ -89,12 +127,12 @@ public class DWGraph implements DirectedWeightedGraph {
 
     @Override
     public int nodeSize() {
-        return nodeList.size();
+        return _nodeCounter;
     }
 
     @Override
     public int edgeSize() {
-        return edgeCounter;
+        return _edgeCounter;
     }
 
     @Override
@@ -103,9 +141,8 @@ public class DWGraph implements DirectedWeightedGraph {
     }
 
     public String toString() {
-        {
-            return "Edges:" + Edges.toString() + ", Nodes:" + Nodes.toString();
-        }
+        return "Edges:" + Edges.toString() + ", Nodes:" + Nodes.toString();
+    }
 
 //
 //        public class DWGraph_DSJson implements JsonSerializer<DirectedWeightedGraph>, JsonDeserializer<DirectedWeightedGraph> {
@@ -147,5 +184,5 @@ public class DWGraph implements DirectedWeightedGraph {
 //                return graphJson;
 //            }
 //        }
-//    }}
-    }
+//    }
+}

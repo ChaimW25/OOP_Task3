@@ -1,11 +1,11 @@
 package api;
 
 public class Edge implements EdgeData {
-    int _src;
-    int _dest;
-    double _w;
-    String _info;
-    int _tag;
+    private int _src;
+    private int _dest;
+    private double _w;
+    private String _info;
+    private int _tag;
 
 
     public Edge(int src, int dest, double w){
@@ -37,7 +37,6 @@ public class Edge implements EdgeData {
     @Override
     public void setInfo(String s) {
         _info = s;
-
     }
 
     @Override
@@ -50,5 +49,7 @@ public class Edge implements EdgeData {
         _tag = t;
     }
 
-
+    public String toString(){
+        return "src=" + _src + ", dest=" + _dest + ", weight=" +_w;
+    }
 }

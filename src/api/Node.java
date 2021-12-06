@@ -3,10 +3,10 @@ package api;
 public class Node implements NodeData {
 
     GeoLocation _pos;
-    int _id;
-    double _weight;
-    String _info;
-    int _tag;
+    private int _id;
+    private double _weight = 0;
+    private String _info = "";
+    private int _tag = 0;
 
     public Node(int id, String pos){
         this._pos = new Geo(pos);
@@ -36,7 +36,7 @@ public class Node implements NodeData {
 
     @Override
     public void setWeight(double w) {
-            _weight=w;
+        _weight=w;
     }
 
     @Override

@@ -28,7 +28,7 @@ public class Geo implements GeoLocation{
     public double z() {
         return _z;
     }
-
+    //calculate the distance between 2 Geo's
     @Override
     public double distance(GeoLocation g) {
         double dx = _x - g.x();

@@ -29,6 +29,14 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms{
         return null;
     }
 
+    /**
+     * This method loop over the nodes in the graph by first: using BFS algorithm
+     * to check if the graph is connected.
+     * see: https://en.wikipedia.org/wiki/Breadth-first_search
+     * second, we use the transpose method to change the narrow direction in directed weighted
+     * grpah. At last we use the BFS algorithm to check if the graph is connected again
+     * @return- true if the graph isConnected, else- return false
+     */
     @Override
     public boolean isConnected() {
         resetTag();
@@ -39,10 +47,10 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms{
             Iterator<NodeData> iter = graph.nodeIter();
 //            if (iter.hasNext()){
             NodeData firstNode = iter.next();
-            BFS(firstNode, graph);
-            Iterator<NodeData> iterSecond = transposeGraph.nodeIter();
+            BFS(firstNode, graph);//first we check BFS algorithm
+            Iterator<NodeData> iterSecond = transposeGraph.nodeIter();//transpose
             NodeData firstNode2 = iterSecond.next();
-            BFS(firstNode2, transposeGraph);
+            BFS(firstNode2, transposeGraph);//another try of BFS from the same node
 //            }
             Iterator<NodeData> iterGraph = graph.nodeIter();
             while (iterGraph.hasNext()){
@@ -60,6 +68,13 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms{
         return true;
     }
 
+    /**
+     * This method finds the shortest path between 2 nodes, using the dijkstra algorithm
+     * to find it.  see: https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm.
+     * @param src - start node
+     * @param dest - end (target) node
+     * @return- the double represents the distance from src to dest
+     */
     @Override
     public double shortestPathDist(int src, int dest) {
         //if one of the nodes don't exist.
@@ -68,11 +83,18 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms{
         //if src and dest are the same node.
         if (src == dest)
             return 0;
-        //else:
+        //else- use dijkstra helper function
         dijkstra(src, dest);
         return graph.getNode(dest).getWeight();
     }
 
+    /**
+     * This method similar to the previous method but instead return the distance between src
+     * and dest it returns the path between them.
+     * @param src - start node
+     * @param dest - end (target) node
+     * @return- list of nodes that represents the shortest path from src to dest
+     */
     @Override
     public List<NodeData> shortestPath(int src, int dest) {
         List<NodeData> shortestPath = new ArrayList<>();
@@ -95,16 +117,57 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms{
         return shortestPath;
     }
 
+    /**
+     * need to fill!!!!!!!!!!
+     * @return
+     */
     @Override
     public NodeData center() {
         return null;
     }
 
+    /**
+     * This method solve Travelling Salesman Problem. we loop over list of chosen nodes and
+     * choose every time the next node by greedy algorithm (we choose the next node with
+     * the shortest path).
+     * @param cities- the graph nodes list
+     * @return- the list of nodes for Travelling Salesman Problem
+     *
+     *
+     * attention---- the input -list of nodes and not all nodes
+     */
     @Override
     public List<NodeData> tsp(List<NodeData> cities) {
-        return null;
+        List<NodeData> bestTsp= new ArrayList<>();
+        int curr=0;
+        double temp=Double.MAX_VALUE;
+        int tempIndex=0;
+        double[]dist= new double[cities.size()];
+        //loop every time single node and compare the distance of the other nodes from it.
+        while(bestTsp.size() != cities.size()) {
+            for (int i = 0; i < cities.size(); i++) {
+                if(i==curr) {
+                    dist[i]=Double.MAX_VALUE;
+                }
+                dist[i] = shortestPathDist(cities.get(curr).getKey(), cities.get(i).getKey());
+                if(!bestTsp.contains(dist[i])){
+                    if(dist[i]<temp) {
+                        temp = dist[i];
+                        tempIndex = i;
+                    }
+                }
+            }
+            bestTsp.add(cities.get(tempIndex));
+            curr++;
+        }
+        return bestTsp;
     }
 
+    /**
+     * This method save the given graph into a json file using gson
+     * @param file - the file name (may include a relative path).
+     * @return- true if the file saved successfully, else- return false
+     */
     @Override
     public boolean save(String file) {
         try {
@@ -124,7 +187,11 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms{
         return false;
     }
 
-
+    /**
+     * This method loads a json file to graph using gson
+     * @param file - file name of JSON file
+     * @return
+     */
     @Override
     public boolean load(String file) {
 
@@ -155,11 +222,16 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms{
             }
     }
 
+    /**
+     * This function implement the BFS algorithm:Breadth-first search.
+     * the function loop over the graph nodes and check that it's in the same Binding component
+     * @param s- the node for begining
+     * @param g- the graph for check
+     */
     // prints BFS traversal from a given source s
     public void BFS(NodeData s, DirectedWeightedGraph g) {
         resetTag();
         LinkedList<NodeData> queue = new LinkedList<>();
-
         // Mark the current node as visited and enqueue it
         s.setTag(1);
         queue.add(s);
@@ -185,12 +257,20 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms{
         }
     }
 
+    /**
+     * This method make transpose for all the edges in the graph. it creates a new
+     * graph and add the edges in the opposite direction.
+     * @param g
+     * @return
+     */
+
     public DirectedWeightedGraph transpose(DirectedWeightedGraph g){
         DirectedWeightedGraph transposeG = new DWGraph();
         Iterator<NodeData> nodeIter = g.nodeIter();
         while (nodeIter.hasNext()) {
             transposeG.addNode(nodeIter.next());
         }
+        //using a loop to change all the edges direction
         Iterator<EdgeData> edgeIter = g.edgeIter();
         while (edgeIter.hasNext()) {
             EdgeData tempIter = edgeIter.next();
@@ -199,10 +279,11 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms{
         return transposeG;
     }
 
-    /*
+    /**
     dijkstra's algorithm is an algorithm for finding the shortest paths
     between nodes in a graph. We used this algorithm to calculate the functions
     shortestPathDist and shortestPath.
+     see:   https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
      */
     private void dijkstra(int src, int dest) {
         initTIW();
@@ -238,7 +319,7 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms{
             }
         }
     }
-
+    //comparator for  weight
     private static class weightComp implements Comparator<NodeData> {
         @Override
         public int compare(NodeData node1, NodeData node2) {
@@ -249,7 +330,7 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms{
             return -1;
         }
     }
-
+    //helper function which init for the dijkstra function
     public void initTIW(){
         Iterator<NodeData> iterGraph = graph.nodeIter();
         while (iterGraph.hasNext()){

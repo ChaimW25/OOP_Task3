@@ -25,7 +25,7 @@ public class Ex2 {
     }
 
     /**
-     * This static function will be used to test your implementation
+     * This static function will be used to test your graph implementation
      *
      * @param json_file - a json file (e.g., G1.json - G3.gson)
      * @return
@@ -33,7 +33,7 @@ public class Ex2 {
     public static DirectedWeightedGraph getGrapg(String json_file) {
         DirectedWeightedGraph graph;
         try {
-            graph = readGRaphFromJson(json_file);
+            graph = jsonToGraph(json_file);
         } catch (Exception e) {
             e.printStackTrace();
             graph = new DWGraph();
@@ -42,7 +42,7 @@ public class Ex2 {
     }
 
     /**
-     * This static function will be used to test your implementation
+     * This static function will be used to test your algorithms implementation
      *
      * @param json_file - a json file (e.g., G1.json - G3.gson)
      * @return
@@ -55,7 +55,7 @@ public class Ex2 {
     }
 
     /**
-     * This static function will run your GUI using the json fime.
+     * This static function will run your GUI using the json file.
      *
      * @param json_file - a json file (e.g., G1.json - G3.gson)
      */
@@ -64,7 +64,15 @@ public class Ex2 {
         new Frame(graphAlgo);
     }
 
-    public static DWGraph readGRaphFromJson(String json_file)
+    /**
+     * This static function creates the graph from a json file: nodes and edges.
+     * @param json_file
+     * @return
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws ParseException
+     */
+    public static DWGraph jsonToGraph(String json_file)
             throws FileNotFoundException, IOException, ParseException {
         DWGraph ans = new DWGraph();
         JSONParser parser = new JSONParser();

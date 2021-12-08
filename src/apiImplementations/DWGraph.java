@@ -10,14 +10,16 @@ import java.lang.reflect.Type;
 
 
 public class DWGraph implements DirectedWeightedGraph {
-    //A HashMap that holds all the vertices in the graph.
-    // The key is the ID of the vertex and the value is the vertex itself (the NodeData).
-    private HashMap<Integer, NodeData> Nodes;          //hashmap of all the nodes.
-    private HashMap<Integer, HashMap<Integer, EdgeData>> Edges;   //every node has hashmap of his going out edges.
-    //    private HashMap<Integer, HashMap<Integer, Double>> destToSrc; // a map of incoming edges to the node .
-    private HashMap<Integer, HashMap<Integer, Integer>> destToSrc; // a map of incoming edges to the node .
-    private int _nodeCounter =0;
-    private int _edgeCounter =0;
+
+    //hashmap of all the nodes.
+    private HashMap<Integer, NodeData> Nodes;
+    // a map of out edges from the node .
+    private HashMap<Integer, HashMap<Integer, EdgeData>> Edges;
+    // a map of incoming edges to the node .
+    private HashMap<Integer, HashMap<Integer, Integer>> destToSrc;
+
+    private int _nodeCounter =0;//counting the nodes in the graph
+    private int _edgeCounter =0;//counting the edges in the graph
     private int _mcCounter=0;//counting the changes in the graph
 
     public DWGraph(){
@@ -74,7 +76,7 @@ public class DWGraph implements DirectedWeightedGraph {
             Edge newEdge = new Edge(src, dest, w);
             if (Edges.get(src).containsKey(dest)) _edgeCounter--;
             Edges.get(src).put(dest, newEdge);
-            destToSrc.get(dest).put(src, 0);///why 0?
+            destToSrc.get(dest).put(src, 0);
             _edgeCounter++;
             _mcCounter++;
         }
@@ -82,7 +84,7 @@ public class DWGraph implements DirectedWeightedGraph {
 
     /**
      * The iterator loop over the values of all the nodes
-     * @return the nodes valus ////////////why not the nodes data!? exception!
+     * @return the nodes value.
      */
     @Override
     public Iterator<NodeData> nodeIter() {
@@ -147,20 +149,20 @@ public class DWGraph implements DirectedWeightedGraph {
             return null;
         }
 
-        HashMap<Integer, EdgeData> edgesOut = Edges.get(key); // make map for move on edge
-
-        for( int e : Edges.get(key).keySet()){
-//            Edges.get(key).remove(e);
+        //update edgeCounter according to the number of edges coming out of it.
+        Iterator<EdgeData> iterGraph = edgeIter(key);
+        while (iterGraph.hasNext()) {
+            iterGraph.next();
             _edgeCounter--;
             _mcCounter++;
         }
 
-        //remove node's in edges
+        //update edgeCounter according to the number of edges coming in of it.
         for (int e : destToSrc.get(key).keySet()){
-//            Edges.get(e).remove(key);
             _edgeCounter--;
             _mcCounter++;
         }
+
         NodeData removeNode = Nodes.get(key);
         Nodes.remove(key);
         Edges.remove(key);

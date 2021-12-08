@@ -1,3 +1,5 @@
+
+
 # EX2 - OOP COURSE
 
 
@@ -7,8 +9,8 @@ In this task we implemented interfaces that creates a Directed Weighted Graph bu
 
 
 
-## main algorithms in our code
-isConnected- loop over the nodes in the graph by using BFS algorithm
+## Main algorithms in our code:
+IsConnected- loop over the nodes in the graph by: using BFS algorithm
 to check if the graph is connected, using a transpose to change the edges directions and then another BFS.
 
 shortestPathDist- finds the shortest path between 2 nodes, using the dijkstra algorithm to find it.
@@ -19,6 +21,23 @@ center- return the node which it's max distance from the other nodes are the low
 we use dijkstra algorithm and our method shortestPathDist to calculate it.
 
 tsp- solve the Travelling Salesman Problem and returns back the shortest path to loop over all the nodes in the input. we use a greedy algorithm to choose the next node every time.
+
+## Repositiry stucture
+We actually accomplished three main parts of this task:
+First, we implemented a class of graph that includes Nodes and Edges and combines them into one graph.
+Second, we implemented a class of algorithms that perform on graphs, some of which we noted above.
+At last, we implemented a graphical interface- 'GUI', for graphs and algorithms. We used the Swing library and its jPanel and JFrame subdirectories. The graphical interface is added to the testers we wrote to test our code.
+In some of the algorithms and implementations, we used material that we found throughout the Internet, some of which we referred to in the links below.
+
+In the graphical interface we implemented two main classes: JFrame which is responsible for the frame and menu buttons. JPanel which is responsible for the exact locations of each point and shape on the screen.
+We implemented additional classes that: first, match between the api commands to their execution in the GUI, and second design each operation in a unique way.
+
+## How does it work?
+
+To run the GUI you can run the Ex2 class or run the jar file Ex2.jar through the cmd follow this steps:
+1. go to the command prompt and reach root folder/build/libs.
+2. Enter the command: java –jar <ExecutableJarFileName>.jar.
+3. Verify the result..
 
 ## Review to our algorithms and to our code
 
@@ -34,6 +53,9 @@ https://javapointers.com/java/java-se/the-jpanel/
 https://sites.google.com/site/simplestjava/jframe
 
 
-![A Star-Based LAN (4)](https://user-images.githubusercontent.com/74601548/145292147-5a1957ab-be11-49a7-93f9-0e92c9d0b63d.png)
 
 
+## UML of our project:
+
+
+![0001](https://user-images.githubusercontent.com/74601548/145302661-29765296-1ddd-4aac-ad4c-32e99296ad49.jpg)

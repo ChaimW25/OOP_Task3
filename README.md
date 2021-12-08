@@ -34,6 +34,5 @@ https://javapointers.com/java/java-se/the-jpanel/
 https://sites.google.com/site/simplestjava/jframe
 
 
-![A Star-Based LAN (4)](https://user-images.githubusercontent.com/74601548/145292147-5a1957ab-be11-49a7-93f9-0e92c9d0b63d.png)
 
-
+![0001](https://user-images.githubusercontent.com/74601548/145302661-29765296-1ddd-4aac-ad4c-32e99296ad49.jpg)

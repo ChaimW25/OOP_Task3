@@ -28,5 +28,6 @@ httpswww.techopedia.comdefinition16931greedy-algorithm
 httpswww.ics.uci.edu~eppstein161960215.html
 
 
-![A Star-Based LAN (1)](https://user-images.githubusercontent.com/74601548/145291110-04014f9f-de8c-43c3-9e6e-ef5ce55aac1d.jpg)
+[ridmi.pdf](https://github.com/ChaimW25/ex2/files/7679242/ridmi.pdf)
+
 

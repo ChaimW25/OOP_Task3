@@ -7,7 +7,7 @@ In this task we implemented interfaces that creates a Directed Weighted Graph bu
 
 
 
-## main algorithms in our code
+## Main algorithms in our code
 isConnected- loop over the nodes in the graph by using BFS algorithm
 to check if the graph is connected, using a transpose to change the edges directions and then another BFS.
 

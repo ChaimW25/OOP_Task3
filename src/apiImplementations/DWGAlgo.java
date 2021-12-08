@@ -1,4 +1,4 @@
-package Implementations;
+package apiImplementations;
 
 import api.DirectedWeightedGraph;
 import api.DirectedWeightedGraphAlgorithms;

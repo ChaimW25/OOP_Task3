@@ -1,4 +1,4 @@
-package Implementations;
+package apiImplementations;
 
 import api.EdgeData;
 import com.google.gson.*;

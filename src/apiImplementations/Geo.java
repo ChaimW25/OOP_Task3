@@ -1,4 +1,4 @@
-package Implementations;
+package apiImplementations;
 
 import api.GeoLocation;
 
@@ -41,6 +41,6 @@ public class Geo implements GeoLocation {
     }
 
     public String toString(){
-        return "x=" + _x + ", y=" + _y + ", z=" +_z;
+        return _x+","+_y+","+_z;
     }
 }

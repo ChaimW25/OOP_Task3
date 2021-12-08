@@ -22,12 +22,18 @@ we use dijkstra algorithm and our method shortestPathDist to calculate it.
 
 tsp- solve the Travelling Salesman Problem and returns back the shortest path to loop over all the nodes in the input. we use a greedy algorithm to choose the next node every time.
 
-## How does it work?
-We actually accomplished three main parts of this task.
-First, we implemented a class of graph that includes Nodes and Edges and combines them into one graph. Second, we implemented a class of algorithms that perform on graphs, some of which we noted above. Finally, we implemented a graphical interface- 'GUI', for graphs and algorithms. We used the Swing library and its jPanel and JFrame subdirectories. The graphical interface is added to the testers we wrote to test our code.
+## Repositiry stucture
+We actually accomplished three main parts of this task:
+First, we implemented a class of graph that includes Nodes and Edges and combines them into one graph.
+Second, we implemented a class of algorithms that perform on graphs, some of which we noted above.
+At last, we implemented a graphical interface- 'GUI', for graphs and algorithms. We used the Swing library and its jPanel and JFrame subdirectories. The graphical interface is added to the testers we wrote to test our code.
 In some of the algorithms and implementations, we used material that we found throughout the Internet, some of which we referred to in the links below.
+
 In the graphical interface we implemented two main classes: JFrame which is responsible for the frame and menu buttons. JPanel which is responsible for the exact locations of each point and shape on the screen.
 We implemented additional classes that: first, match between the api commands to their execution in the GUI, and second design each operation in a unique way.
+
+## How does it work?
+
 To run the GUI you can run the Ex2 class or run the jar file Ex2.jar through the cmd follow this steps:
 go to the command prompt and reach root folder/build/libs.
 Enter the command: java –jar <ExecutableJarFileName>.jar.

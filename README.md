@@ -28,7 +28,10 @@ First, we implemented a class of graph that includes Nodes and Edges and combine
 In some of the algorithms and implementations, we used material that we found throughout the Internet, some of which we referred to in the links below.
 In the graphical interface we implemented two main classes: JFrame which is responsible for the frame and menu buttons. JPanel which is responsible for the exact locations of each point and shape on the screen.
 We implemented additional classes that: first, match between the api commands to their execution in the GUI, and second design each operation in a unique way.
-To run the GUI you can run the Ex2 class or run the jar file.
+To run the GUI you can run the Ex2 class or run the jar file Ex2.jar through the cmd follow this steps:
+go to the command prompt and reach root folder/build/libs.
+Enter the command: java –jar <ExecutableJarFileName>.jar.
+Verify the result..
 
 ## Review to our algorithms and to our code
 

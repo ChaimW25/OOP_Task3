@@ -156,7 +156,7 @@ public class DWGraph implements DirectedWeightedGraph {
             _mcCounter++;
         }
 
-        ////update edgeCounter according to the number of edges coming in of it.
+        //update edgeCounter according to the number of edges coming in of it.
         for (int e : destToSrc.get(key).keySet()){
             _edgeCounter--;
             _mcCounter++;

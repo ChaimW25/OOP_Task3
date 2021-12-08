@@ -59,7 +59,6 @@ public class Edge implements EdgeData {
 
     static class EdgeDataJson implements JsonDeserializer<EdgeData>, JsonSerializer<EdgeData>
     {
-
         @Override
         public EdgeData deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
             int src = jsonElement.getAsJsonObject().get("src").getAsInt();

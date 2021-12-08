@@ -35,9 +35,9 @@ We implemented additional classes that: first, match between the api commands to
 ## How does it work?
 
 To run the GUI you can run the Ex2 class or run the jar file Ex2.jar through the cmd follow this steps:
-go to the command prompt and reach root folder/build/libs.
-Enter the command: java –jar <ExecutableJarFileName>.jar.
-Verify the result..
+1. go to the command prompt and reach root folder/build/libs.
+2. Enter the command: java –jar <ExecutableJarFileName>.jar.
+3. Verify the result..
 
 ## Review to our algorithms and to our code
 

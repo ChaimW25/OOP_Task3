@@ -21,10 +21,6 @@ public class Ex2 {
     // = "data/G1.json";
 
     public static void main(String[] args) {
-        //  /home/bar/Desktop/Ex2_OOP/Ex2_OOP/1000Nodes.json"
-        //  D:\\Filipe\\Project Final\\src\\database_lotto.txt
-        //String json_file =  "C:\\Users\\USER\\Downloads\\OOP--Ex2-Dvir\\OOP--Ex2-main\\data\\G1.json";
-        // String json_file = "/home/Downloads/OOP--Ex2-Dvir/OOP--Ex2-main/G1.json"; //= args[0];
         runGUI("C:\\Users\\USER\\Downloads\\OOP--Ex2-Dvir\\OOP--Ex2-main\\data\\G1.json");
     }
 

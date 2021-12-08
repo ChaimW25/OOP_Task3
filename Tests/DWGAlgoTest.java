@@ -1,3 +1,6 @@
+import Implementations.DWGAlgo;
+import Implementations.DWGraph;
+import Implementations.Node;
 import api.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

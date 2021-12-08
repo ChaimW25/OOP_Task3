@@ -1,5 +1,6 @@
-package api;
+package Implementations;
 
+import api.EdgeData;
 import com.google.gson.*;
 import java.lang.reflect.Type;
 

@@ -26,6 +26,8 @@ tsp- solve the Travelling Salesman Problem and returns back the shortest path to
 We actually accomplished three main parts of this task.
 First, we implemented a class of graph that includes Nodes and Edges and combines them into one graph. Second, we implemented a class of algorithms that perform on graphs, some of which we noted above. Finally, we implemented a graphical interface- 'GUI', for graphs and algorithms. We used the Swing library and its jPanel and JFrame subdirectories. The graphical interface is added to the testers we wrote to test our code.
 In some of the algorithms and implementations, we used material that we found throughout the Internet, some of which we referred to in the links below.
+In the graphical interface we implemented two main classes: JFrame which is responsible for the frame and menu buttons. JPanel which is responsible for the exact locations of each point and shape on the screen.
+We implemented additional classes that: first, match between the api commands to their execution in the GUI, and second design each operation in a unique way.
 To run the GUI you can run the Ex2 class or run the jar file.
 
 ## Review to our algorithms and to our code

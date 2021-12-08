@@ -20,11 +20,20 @@ we use dijkstra algorithm and our method shortestPathDist to calculate it.
 
 tsp- solve the Travelling Salesman Problem and returns back the shortest path to loop over all the nodes in the input. we use a greedy algorithm to choose the next node every time.
 
-## Review to our algorithms
-httpswww.baeldung.comjava-dijkstra
+## Review to our algorithms and to our code
 
-httpswww.techopedia.comdefinition16931greedy-algorithm
 
-httpswww.ics.uci.edu~eppstein161960215.html
+https://www.techopedia.com/definition/16931/greedy-algorithm
+
+https://www.baeldung.com/java-dijkstra
+
+https://cp-algorithms.com/graph/breadth-first-search.html
+
+https://javapointers.com/java/java-se/the-jpanel/
+
+https://sites.google.com/site/simplestjava/jframe
+
+
+![A Star-Based LAN (4)](https://user-images.githubusercontent.com/74601548/145292147-5a1957ab-be11-49a7-93f9-0e92c9d0b63d.png)
 
 

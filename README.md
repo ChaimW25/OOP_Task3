@@ -28,6 +28,6 @@ httpswww.techopedia.comdefinition16931greedy-algorithm
 httpswww.ics.uci.edu~eppstein161960215.html
 
 
-[ridmi.pdf](https://github.com/ChaimW25/ex2/files/7679242/ridmi.pdf)
+![0001](https://user-images.githubusercontent.com/74601548/145291645-ca83e465-43c4-4b5d-b2d0-d31574f13d79.jpg)
 
 

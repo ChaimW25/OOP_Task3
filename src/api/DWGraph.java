@@ -14,7 +14,7 @@ public class DWGraph implements DirectedWeightedGraph {
     private HashMap<Integer, HashMap<Integer, Integer>> destToSrc; // a map of incoming edges to the node .
     private int _nodeCounter =0;
     private int _edgeCounter =0;
-    private int _mcCounter=0;
+    private int _mcCounter=0;//counting the changes in the graph
 
     public DWGraph(){
         Nodes = new HashMap<>();
@@ -39,6 +39,11 @@ public class DWGraph implements DirectedWeightedGraph {
         return null;
     }
 
+    /**
+     * In this method we add the node to the hashmap, then, in addition we create a new hashmap
+     * of edges from this node
+     * @param n- the node we add
+     */
     @Override
     public void addNode(NodeData n) {
         if (!Nodes.containsKey(n.getKey())){
@@ -51,37 +56,86 @@ public class DWGraph implements DirectedWeightedGraph {
         }
     }
 
+    /**
+     * In this method we connect between 2 nodes. first, we check that the nodes exists in
+     * the graph, then we check: if there's another edge between the nodes-> we overload it
+     * @param src - the source of the edge.
+     * @param dest - the destination of the edge.
+     * @param w - positive weight representing the cost (aka time, price, etc) between src-->dest.
+     */
     @Override
     public void connect(int src, int dest, double w) {
         if (src != dest && getNode(src) != null && getNode(dest) != null ) {
             Edge newEdge = new Edge(src, dest, w);
             if (Edges.get(src).containsKey(dest)) _edgeCounter--;
             Edges.get(src).put(dest, newEdge);
-            destToSrc.get(dest).put(src, 0);
+            destToSrc.get(dest).put(src, 0);///why 0?
             _edgeCounter++;
             _mcCounter++;
         }
     }
 
+    /**
+     * The iterator loop over the values of all the nodes
+     * @return the nodes valus ////////////why not the nodes data!? exception!
+     */
     @Override
     public Iterator<NodeData> nodeIter() {
+//        if(_mcCounter!=0){
+//            new RuntimeException("the graph was changed!").printStackTrace();
+//        }
         return Nodes.values().iterator();
     }
 
+    /**
+     * This iterator loop over all the edges. it starts with a loop over the nodes
+     * and then loops over the edges go out from the nodes
+     * @return- the edgeData
+     */
     @Override
     public Iterator<EdgeData> edgeIter() {
-        List<EdgeData> ans  = new ArrayList<>();
-        for (NodeData n : Nodes.values()){
-            ans.addAll(Edges.get(n.getKey()).values());
-        }
-        return ans.iterator();
-    }
+//        try {
+            List<EdgeData> ans = new ArrayList<>();
+            for (NodeData n : Nodes.values()) {
+                ans.addAll(Edges.get(n.getKey()).values());
+            }
+//            if(_mcCounter!=0){throw new RuntimeException();}
+            return ans.iterator();
 
+        }
+//            catch (RuntimeException e){
+//                new RuntimeException("the graph was changed!").printStackTrace();
+//                throw e;
+//        }
+
+
+    /**
+     * This method loop over all the edges that fo out from the current node
+     * @param node_id- the current node
+     * @return- the edges that going out
+     */
     @Override
     public Iterator<EdgeData> edgeIter(int node_id) {
+//        try{
+//            if(_mcCounter!=0){throw new RuntimeException();}
+//            return ans.iterator();
+//
+//        }
+//
+//        catch (RuntimeException e){
+//            new RuntimeException("the graph was changed!").printStackTrace();
+//            throw e;
+//
+//        }
         return Edges.get(node_id).values().iterator();
     }
 
+    /**
+     * This method remove a node from the graph and then remove all the edges that going to/from
+     * this node.
+     * @param key- the key of the node to remove
+     * @return- the NodeData we removed
+     */
     @Override
     public NodeData removeNode(int key) {
         if (getNode(key) == null || Edges.get(key) == null){
@@ -110,6 +164,12 @@ public class DWGraph implements DirectedWeightedGraph {
         return removeNode;
     }
 
+    /**
+     * This method remove the edge from the given src to the given dest
+     * @param src- the index of the src edge
+     * @param dest- the index of the dest edge
+     * @return- the edgeData we removed
+     */
     @Override
     public EdgeData removeEdge(int src, int dest) {
         if (Edges.get(src)==null) {
@@ -146,21 +206,35 @@ public class DWGraph implements DirectedWeightedGraph {
         return "Edges:" + Edges.toString() + ", Nodes:" + Nodes.toString();
     }
 
+    /**
+     * This class helps to read from/to Json files.
+     * deserialize- converting json file to objeccts.
+     * serialize- converting objects into a json file.
+     */
     public static class DWGraph_DSJson implements JsonSerializer<DirectedWeightedGraph>, JsonDeserializer<DirectedWeightedGraph> {
 
         Node.NodeDataJson nodeJson = new Node.NodeDataJson();
         Edge.EdgeDataJson edgeJson = new Edge.EdgeDataJson();
 
+        /**
+         * This method reads the nodes and edges and add them to the graph object
+         * @param jsonElement
+         * @param type
+         * @param jsonDeserializationContext
+         * @return
+         * @throws JsonParseException
+         */
         @Override
         public DirectedWeightedGraph deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
             DirectedWeightedGraph graph = new DWGraph();
             JsonArray nodes=jsonElement.getAsJsonObject().get("Nodes").getAsJsonArray();
             JsonArray edges=jsonElement.getAsJsonObject().get("Edges").getAsJsonArray();
+            //loop over the nodes and add them to the graph
             for(JsonElement je: nodes)
             {
                 graph.addNode(nodeJson.deserialize(je,type,jsonDeserializationContext));
             }
-
+            //loop over the edges and add them to the graph
             for(JsonElement je: edges)
             {
                 int s=je.getAsJsonObject().get("src").getAsInt();
@@ -171,6 +245,14 @@ public class DWGraph implements DirectedWeightedGraph {
             return graph;
         }
 
+        /**
+         * This method convert object to json file. it creates json arrays and push it into
+         * a json file
+         * @param graph
+         * @param type
+         * @param jsonSerializationContext
+         * @return
+         */
         @Override
         public JsonElement serialize(DirectedWeightedGraph graph, Type type, JsonSerializationContext jsonSerializationContext)
         {

@@ -218,6 +218,31 @@ class DWGAlgoTest {
         assertEquals(sl, ga.shortestPath(1, 8), "is fuction shortestPathDist not working properly");
     }
 
+
+//    @Test
+//    void tsp() {
+//        String path = System.getProperty("user.dir") + "\\data\\";
+//        DirectedWeightedGraphAlgorithms graph = new DWGAlgo();
+//        graph.load(path + "G" + 3 + ".json");
+//        //DWGraph g =  graph.getGraph();
+//        List<NodeData> n = new ArrayList<>();
+//        n.add(g.getNode(0));
+//        n.add(g.getNode(1));
+//        n.add(g.getNode(2));
+//        n.add(g.getNode(3));
+//        n.add(g.getNode(9));
+//        n = graph.tsp(n);
+//        List<NodeData> ans = new ArrayList<>();
+//        ans.add(g.getNode(1));
+//        ans.add(g.getNode(9));
+//        ans.add(g.getNode(2));
+//        ans.add(g.getNode(3));
+//        ans.add(g.getNode(0));
+//        for (int i = 0; i < ans.size(); i++) {
+//            assertEquals(ans.get(i).getKey(), n.get(i).getKey());
+//        }
+//    }
+
     @Test
     void save() {
         String path = "G1.json";

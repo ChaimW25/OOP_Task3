@@ -1,3 +1,6 @@
+import Implementations.DWGraph;
+import Implementations.Geo;
+import Implementations.Node;
 import api.*;
 import org.junit.jupiter.api.Test;
 

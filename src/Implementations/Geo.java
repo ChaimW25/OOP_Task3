@@ -1,6 +1,8 @@
-package api;
+package Implementations;
 
-public class Geo implements GeoLocation{
+import api.GeoLocation;
+
+public class Geo implements GeoLocation {
 
     private double _x;
     private double _y;

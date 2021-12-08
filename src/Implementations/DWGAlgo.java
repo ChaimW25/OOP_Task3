@@ -1,12 +1,16 @@
-package api;
+package Implementations;
 
+import api.DirectedWeightedGraph;
+import api.DirectedWeightedGraphAlgorithms;
+import api.EdgeData;
+import api.NodeData;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.*;
 import java.util.*;
 
-public class DWGAlgo implements DirectedWeightedGraphAlgorithms{
+public class DWGAlgo implements DirectedWeightedGraphAlgorithms {
 
     DirectedWeightedGraph graph;
 
@@ -76,7 +80,7 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms{
      * @return- the double represents the distance from src to dest
      */
     @Override
-    public double shortestPathDist(int src, int dest) {
+        public double shortestPathDist(int src, int dest) {
         //if one of the nodes don't exist.
         if (graph.getNode(src) == null || graph.getNode(dest) == null)
             return -1;

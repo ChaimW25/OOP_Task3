@@ -1,5 +1,7 @@
-package api;
+package Implementations;
 
+import api.GeoLocation;
+import api.NodeData;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;

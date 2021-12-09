@@ -41,7 +41,7 @@ public class Geo implements GeoLocation {
         double t = (dx*dx+dy*dy+dz*dz);
         return Math.sqrt(t);
     }
-
+    //to string method
     public String toString(){
         return _x+","+_y+","+_z;
     }

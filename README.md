@@ -63,7 +63,7 @@ https://sites.google.com/site/simplestjava/jframe
   ## our algorithm performances:
   
  
-![image](https://user-images.githubusercontent.com/74601548/145382707-e9a07390-bb3b-40af-9781-e98f13383ef5.png)
+<img width="691" alt="ביצועים" src="https://user-images.githubusercontent.com/74601548/145386112-e936e6d2-80b5-4c9b-a4f7-355de3f5ef26.png">
 
 
 

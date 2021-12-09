@@ -65,7 +65,7 @@ public class Ex2 {
     }
 
     /**
-     * This static function creates the graph from a json file: nodes and edges.a
+     * This static function creates the graph from a json file: nodes and edges.aa
      * @param json_file
      * @return
      * @throws FileNotFoundException

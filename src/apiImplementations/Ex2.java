@@ -41,7 +41,8 @@ public class Ex2 {
     public static void main(String[] args) {
         String path = System.getProperty("user.dir") + "\\data\\";
         String json_file = "G1.json";
-        runGUI(path + json_file);
+        runGUI("C:\\Users\\USER\\Downloads\\OOP--Ex2-\\OOP--Ex2-main\\data\\G1.json");
     }
 }
+
 

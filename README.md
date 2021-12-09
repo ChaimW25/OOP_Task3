@@ -32,6 +32,11 @@ In some of the algorithms and implementations, we used material that we found th
 In the graphical interface we implemented two main classes: JFrame which is responsible for the frame and menu buttons. JPanel which is responsible for the exact locations of each point and shape on the screen.
 We implemented additional classes that: first, match between the api commands to their execution in the GUI, and second design each operation in a unique way.
 
+## UML of our project:
+
+
+![0001](https://user-images.githubusercontent.com/74601548/145302661-29765296-1ddd-4aac-ad4c-32e99296ad49.jpg)
+
 ## How does it work?
 
 To run the GUI you can run the Ex2 class or run the jar file Ex2.jar through the cmd follow this steps:
@@ -53,10 +58,7 @@ https://javapointers.com/java/java-se/the-jpanel/
 https://sites.google.com/site/simplestjava/jframe
 
 
-## UML of our project:
 
-
-![0001](https://user-images.githubusercontent.com/74601548/145302661-29765296-1ddd-4aac-ad4c-32e99296ad49.jpg)
   
   ## our algorithm performances
   

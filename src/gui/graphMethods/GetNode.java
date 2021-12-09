@@ -10,8 +10,12 @@ import java.awt.*;
 
 public class GetNode extends JFrame implements ActionListener {
     private JTextField key;
+    private JTextField inputSrc;
+
     private JButton button;
     private JLabel text;
+    private JLabel textwidth;
+
 
     private DirectedWeightedGraph graph;
     // default constructor

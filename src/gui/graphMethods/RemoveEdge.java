@@ -11,9 +11,13 @@ import java.awt.*;
 public class RemoveEdge extends JFrame implements ActionListener {
     private JTextField inputSrc;
     private JTextField inputDest;
+    private JTextField input;
+
     private JButton button;
     private JLabel textSrc;
     private JLabel textDest;
+    private JLabel textwidth;
+
 
     private DirectedWeightedGraph graph;
     private Panel panel;
@@ -99,3 +103,4 @@ public class RemoveEdge extends JFrame implements ActionListener {
         this.dispose();
     }
 }
+

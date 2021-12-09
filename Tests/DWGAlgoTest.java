@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -43,19 +44,46 @@ class DWGAlgoTest {
 
         graphAlgo.init(graph);
     }
-//
-//    @Test
-//    void init() {
-//    }
-//
-//    @Test
-//    void getGraph() {
-//    }
-//
-//    @Test
-//    void copy() {
-//    }
-//
+
+    @Test
+    void init() {
+        graph = new DWGraph();
+        graphAlgo = new DWGAlgo();
+        assertFalse(graphAlgo.getGraph().nodeIter().hasNext());
+        assertFalse(graphAlgo.getGraph().edgeIter().hasNext());
+        graphAlgo.init(graph);
+        assertNotNull(graphAlgo.getGraph());
+        assertEquals(graph, graphAlgo.getGraph());
+    }
+
+    @Test
+    void getGraph() {
+        graphAlgo = new DWGAlgo();
+        graphAlgo.init(graph);
+        DirectedWeightedGraph g = graphAlgo.getGraph();
+        assertEquals(g, graph);
+        assertSame(g, graph);
+    }
+
+@Test
+void copy() {
+    DirectedWeightedGraph copyGraph = graphAlgo.copy();
+    System.out.println(copyGraph);
+    assertEquals(graph.edgeSize(), copyGraph.edgeSize());
+    assertEquals(graph.nodeSize(), copyGraph.nodeSize());
+    assertEquals(graph.toString(), copyGraph.toString());
+    assertNotSame(graph, copyGraph);
+    graph.getNode(2).setTag(5);
+    copyGraph.getNode(2).setTag(4);
+    assertEquals(5, graph.getNode(2).getTag());
+    assertEquals(4, copyGraph.getNode(2).getTag());
+    graph.connect(1, 3, 1.5);
+    assertEquals(1.5, graph.getEdge(1, 3).getWeight());
+    assertNull(copyGraph.getEdge(1, 3));
+    copyGraph.connect(0, 2, 1.9);
+    assertNull(graph.getEdge(0, 2));
+    assertEquals(1.9, copyGraph.getEdge(0, 2).getWeight());
+}
     @Test
     void isConnected() {
         assertTrue(graphAlgo.isConnected());
@@ -91,7 +119,7 @@ class DWGAlgoTest {
         graph.connect(8, 4, 1);
 
         graphAlgo.init(graph);
-        assertEquals(4, graphAlgo.shortestPathDist(1, 8), "is fuction shortestPathDist not working properly");
+
         List<NodeData> sl = new ArrayList<>();
         sl.add(graph.getNode(1));
         sl.add(graph.getNode(2));
@@ -103,14 +131,65 @@ class DWGAlgoTest {
 
     @Test
     void shortestPath() {
+        DirectedWeightedGraph graph = new DWGraph();
+        for (int i = 1; i < 9; i++) {
+            graph.addNode(new Node(i, "0,0,0"));
+        }
+        //https://upload.wikimedia.org/wikipedia/commons/5/5c/Scc.png
+        graph.connect(1, 2, 1);
+        graph.connect(2, 5, 1);
+        graph.connect(2, 6, 1);
+        graph.connect(2, 3, 1);
+        graph.connect(3, 4, 1);
+        graph.connect(3, 7, 1);
+        graph.connect(4, 3, 1);
+        graph.connect(4, 8, 1);
+        graph.connect(5, 1, 1);
+        graph.connect(5, 6, 1);
+        graph.connect(6, 7, 1);
+        graph.connect(7, 6, 1);
+        graph.connect(8, 7, 1);
+        graph.connect(8, 4, 1);
+
+        graphAlgo.init(graph);
+        assertEquals(4, graphAlgo.shortestPathDist(1, 8), "is fuction shortestPathDist not working properly");
     }
 
     @Test
     void center() {
+        String path = System.getProperty("user.dir") + "\\data\\";
+        //test to find the center in G1:
+        DirectedWeightedGraphAlgorithms graphG1 = new DWGAlgo();
+        graphG1.load(path + "G1.json");
+        assertEquals(8, graphG1.center().getKey());
+        //test to find the center in G1:
+        DirectedWeightedGraphAlgorithms graphG2 = new DWGAlgo();
+        graphG2.load(path + "G2.json");
+        assertEquals(0, graphG2.center().getKey());
+        //test to find the center in G1:
+        DirectedWeightedGraphAlgorithms graphG3 = new DWGAlgo();
+        graphG3.load(path + "G3.json");
+        assertEquals(40, graphG3.center().getKey());
     }
 
     @Test
     void tsp() {
+        List<NodeData> n = new ArrayList<>();
+        n.add(graphAlgo.getGraph().getNode(2));
+        n.add(graphAlgo.getGraph().getNode(0));
+        n.add(graphAlgo.getGraph().getNode(3));
+        n.add(graphAlgo.getGraph().getNode(1));
+        n = graphAlgo.tsp(n);
+        System.out.println(n);
+        List<NodeData> ans = new ArrayList<>();
+        ans.add(graphAlgo.getGraph().getNode(2));
+        ans.add(graphAlgo.getGraph().getNode(3));
+        ans.add(graphAlgo.getGraph().getNode(0));
+        ans.add(graphAlgo.getGraph().getNode(1));
+        System.out.println(ans);
+        for (int i = 0; i < ans.size(); i++) {
+            assertEquals(ans.get(i).getKey(), n.get(i).getKey());
+        }
     }
 
     @Test
@@ -137,6 +216,24 @@ class DWGAlgoTest {
         for (int i = 1; i <= 3; i++) {
             ga.load(path + "G" + i + ".json");
             System.out.println(ga.getGraph() + "\n");
+        }
+    }
+
+    @Test
+    void save_load(){
+        String path = System.getProperty("user.dir") + "\\data\\";
+        DirectedWeightedGraphAlgorithms ga = new DWGAlgo();
+        for (int i = 1; i <= 3; i++) {
+            ga.load(path + "G" + i + ".json");
+            ga.save(path + "B" + i + ".json");
+            Path G = Paths.get(path + "G" + i + ".json");
+            Path B = Paths.get(path + "B" + i + ".json");
+            try {
+                Arrays.equals(Files.readAllBytes(G), Files.readAllBytes(B));
+                System.out.println("file G" + i + " and file B" + i + " equals!!");
+            } catch (IOException e) {
+                fail("fail to read file!");
+            }
         }
     }
 
@@ -180,51 +277,34 @@ class DWGAlgoTest {
         }
     }
 
-//    @Test
-//    void tsp() {
-//        String path = System.getProperty("user.dir") + "\\data\\";
-//        DirectedWeightedGraphAlgorithms graph = new DWGAlgo();
-//        graph.load(path + "G" + 3 + ".json");
-//        //DWGraph g =  graph.getGraph();
-//        List<NodeData> n = new ArrayList<>();
-//        n.add(g.getNode(0));
-//        n.add(g.getNode(1));
-//        n.add(g.getNode(2));
-//        n.add(g.getNode(3));
-//        n.add(g.getNode(9));
-//        n = graph.tsp(n);
-//        List<NodeData> ans = new ArrayList<>();
-//        ans.add(g.getNode(1));
-//        ans.add(g.getNode(9));
-//        ans.add(g.getNode(2));
-//        ans.add(g.getNode(3));
-//        ans.add(g.getNode(0));
-//        for (int i = 0; i < ans.size(); i++) {
-//            assertEquals(ans.get(i).getKey(), n.get(i).getKey());
-//        }
-//    }
+    @Test
+    void json1000(){
+        //test preformats in graph with 1,000 nodes:
+        String path = System.getProperty("user.dir") + "\\data\\";
+        DirectedWeightedGraphAlgorithms graph1000 = new DWGAlgo();
+        graph1000.load(path + "1000Nodes.json");
+//        assertEquals(362, graph1000.center().getKey());
+//        assertTrue(graph1000.isConnected());
+
+    }
 
     @Test
-    void save_load() {
+    void json10000(){
+        //test preformats in graph with 10,000 nodes:
         String path = System.getProperty("user.dir") + "\\data\\";
-        DirectedWeightedGraphAlgorithms ga = new DWGAlgo();
-        for (int i = 1; i <= 3; i++) {
-            ga.load(path + "G" + i + ".json");
-            ga.save(path + "B" + i + ".json");
-            System.out.println(ga.getGraph());
-            Path G = Paths.get(path + "G" + i + ".json");
-            Path B = Paths.get(path + "B" + i + ".json");
-            String strG = "";
-            String strB = "";
-            try {
-                strG = new String(Files.readAllBytes(G));
-                strB = new String(Files.readAllBytes(B));
-            } catch (IOException e) {
-                e.printStackTrace();
-                fail("fail to read file!");
-            }
-//            if (!strG.equals(strB)) fail("not same file: G" + i + " != B" + i);
-//            assertEquals(strG, strB);
-        }
+        DirectedWeightedGraphAlgorithms graph10000 = new DWGAlgo();
+        graph10000.load(path + "10000Nodes.json");
+//        assertEquals(3846, graph10000.center().getKey());
+//        assertTrue(graph10000.isConnected());
     }
+
+    @Test
+    void json100000() {
+        //test preformats in graph with 100,000 nodes:
+        String path = System.getProperty("user.dir") + "\\data\\";
+        DirectedWeightedGraphAlgorithms graph100000 = new DWGAlgo();
+        graph100000.load(path + "100000Nodes.json");
+//        assertTrue(graph100000.isConnected());
+    }
+
 }

@@ -10,8 +10,12 @@ import java.awt.*;
 
 public class RemoveNode extends JFrame implements ActionListener {
     private JTextField inputKey;
+    private JTextField input;
+
     private JButton button;
     private JLabel textKey;
+    private JLabel textwidth;
+
 
     private DirectedWeightedGraph graph;
     private Panel panel;

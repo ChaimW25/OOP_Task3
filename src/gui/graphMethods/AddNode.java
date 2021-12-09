@@ -11,8 +11,12 @@ import java.awt.*;
 
 public class AddNode extends JFrame implements ActionListener {
     private JTextField inputKey;
+    private JTextField input;
+
     private JButton button;
     private JLabel textKey;
+    private JLabel textwidth;
+
 
     private DirectedWeightedGraph graph;
     private Panel panel;
@@ -83,3 +87,4 @@ public class AddNode extends JFrame implements ActionListener {
         this.dispose();
     }
 }
+

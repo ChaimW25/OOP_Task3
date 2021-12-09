@@ -13,8 +13,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 
 public class Frame extends JFrame implements ActionListener, MouseListener {
-    private Panel panel;
-    private JMenuBar mb;
+    private Panel pan;
+    private JMenuBar menB;
 
 
 
@@ -50,10 +50,10 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
         super();
         graphAlgo = ans;
 
-        panel = new Panel(ans.getGraph());
+        pan = new Panel(ans.getGraph());
         // this.setLayout(new BorderLayout());
         buildBar();
-        this.add(panel);
+        this.add(pan);
         this.addMouseListener(this);
         this.pack();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -125,12 +125,12 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
         algoMethods.add(center);
         algoMethods.add(tsp);
 
-        mb = new JMenuBar();
-        mb.add(file);
-        mb.add(graphMethods);
-        mb.add(algoMethods);
-        mb.add(statistics);
-        setJMenuBar(mb);
+        menB = new JMenuBar();
+        menB.add(file);
+        menB.add(graphMethods);
+        menB.add(algoMethods);
+        menB.add(statistics);
+        setJMenuBar(menB);
     }
 
     @Override
@@ -145,13 +145,13 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
             needToAddNode = true;
         }
         else if(e.getSource() == connect) {
-            new Connect(graphAlgo.getGraph(), panel);
+            new Connect(graphAlgo.getGraph(), pan);
         }
         else if(e.getSource() == removeNode) {
-            new RemoveNode(graphAlgo.getGraph(), panel);
+            new RemoveNode(graphAlgo.getGraph(), pan);
         }
         else if(e.getSource() == removeEdge) {
-            new RemoveEdge(graphAlgo.getGraph(), panel);
+            new RemoveEdge(graphAlgo.getGraph(), pan);
         }
         else if (e.getSource() == nodeSize) {
             String message = "Size Of The Nodes In The Graph is: " + graphAlgo.getGraph().nodeSize();
@@ -194,13 +194,13 @@ public class Frame extends JFrame implements ActionListener, MouseListener {
             new Save(graphAlgo);
         }
         else if(e.getSource() == load) {
-            new Load(graphAlgo, panel);
+            new Load(graphAlgo, pan);
         }
     }
     @Override
     public void mousePressed(MouseEvent e) {
         if (needToAddNode) {
-            new AddNode(graphAlgo.getGraph(), panel, e.getX(),e.getY());
+            new AddNode(graphAlgo.getGraph(), pan, e.getX(),e.getY());
             needToAddNode = false;
         }
     }

@@ -10,8 +10,12 @@ import java.awt.*;
 
 public class Load extends JFrame implements ActionListener {
     private JTextField inputName;
+    private JTextField input;
+
     private JButton button;
     private JLabel textName;
+    private JLabel textwidth;
+
 
     private DirectedWeightedGraphAlgorithms graphAlgo;
     private Panel panel;

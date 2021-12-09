@@ -220,7 +220,7 @@ public class DWGraph implements DirectedWeightedGraph {
     }
 
     /**
-     * This class helps to read from/to Json files.
+     * This class helps to read from/to Json files.a
      * deserialize- converting json file to objeccts.
      * serialize- converting objects into a json file.
      */

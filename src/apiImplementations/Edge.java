@@ -3,7 +3,7 @@ package apiImplementations;
 import api.EdgeData;
 import com.google.gson.*;
 import java.lang.reflect.Type;
-
+//
 public class Edge implements EdgeData {
     private int _src;
     private int _dest;

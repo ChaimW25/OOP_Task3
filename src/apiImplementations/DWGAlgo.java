@@ -35,7 +35,7 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms {
 
     /**
      * This method loop over the nodes in the graph by first: using BFS algorithm
-     * to check if the graph is connected.
+     * to check if the graph is connected.a
      * see: https://en.wikipedia.org/wiki/Breadth-first_search
      * second, we use the transpose method to change the narrow direction in directed weighted
      * grpah. At last we use the BFS algorithm to check if the graph is connected again

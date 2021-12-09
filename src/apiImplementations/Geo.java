@@ -1,7 +1,7 @@
 package apiImplementations;
 
 import api.GeoLocation;
-
+//
 public class Geo implements GeoLocation {
 
     private double _x;

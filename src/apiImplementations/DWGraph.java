@@ -88,9 +88,6 @@ public class DWGraph implements DirectedWeightedGraph {
      */
     @Override
     public Iterator<NodeData> nodeIter() {
-//        if(_mcCounter!=0){
-//            new RuntimeException("the graph was changed!").printStackTrace();
-//        }
         return Nodes.values().iterator();
     }
 
@@ -101,20 +98,12 @@ public class DWGraph implements DirectedWeightedGraph {
      */
     @Override
     public Iterator<EdgeData> edgeIter() {
-//        try {
             List<EdgeData> ans = new ArrayList<>();
             for (NodeData n : Nodes.values()) {
                 ans.addAll(Edges.get(n.getKey()).values());
             }
-//            if(_mcCounter!=0){throw new RuntimeException();}
             return ans.iterator();
-
         }
-//            catch (RuntimeException e){
-//                new RuntimeException("the graph was changed!").printStackTrace();
-//                throw e;
-//        }
-
 
     /**
      * This method loop over all the edges that fo out from the current node
@@ -123,17 +112,6 @@ public class DWGraph implements DirectedWeightedGraph {
      */
     @Override
     public Iterator<EdgeData> edgeIter(int node_id) {
-//        try{
-//            if(_mcCounter!=0){throw new RuntimeException();}
-//            return ans.iterator();
-//
-//        }
-//
-//        catch (RuntimeException e){
-//            new RuntimeException("the graph was changed!").printStackTrace();
-//            throw e;
-//
-//        }
         return Edges.get(node_id).values().iterator();
     }
 
@@ -220,7 +198,7 @@ public class DWGraph implements DirectedWeightedGraph {
     }
 
     /**
-     * This class helps to read from/to Json files.aa
+     * This class helps to read from/to Json files.
      * deserialize- converting json file to objeccts.
      * serialize- converting objects into a json file.
      */

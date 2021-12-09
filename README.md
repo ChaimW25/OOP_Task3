@@ -60,8 +60,10 @@ https://sites.google.com/site/simplestjava/jframe
 
 
   
-  ## our algorithm performances
+  ## our algorithm performances:
   
-  ![table](https://user-images.githubusercontent.com/74601548/145377680-9b413fa5-aa2c-4352-b026-1f58b08688ba.jpg)
+ 
+![image](https://user-images.githubusercontent.com/74601548/145382707-e9a07390-bb3b-40af-9781-e98f13383ef5.png)
+
 
 

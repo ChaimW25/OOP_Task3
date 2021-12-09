@@ -30,12 +30,28 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public DirectedWeightedGraph copy() {
-        return null;
+        if (graph == null){
+            return null;
+        }
+        DirectedWeightedGraph copyGraph = new DWGraph();
+        //copy all the nodes:
+        Iterator<NodeData> nodeIter = graph.nodeIter();
+        while (nodeIter.hasNext()) {
+            NodeData tempNode =nodeIter.next();
+            copyGraph.addNode(new Node(tempNode.getKey(), tempNode.getLocation().toString()));
+        }
+        //copy all the edges:
+        Iterator<EdgeData> edgeIter = graph.edgeIter();
+        while (edgeIter.hasNext()) {
+            EdgeData tempEdge =edgeIter.next();
+            copyGraph.connect(tempEdge.getSrc(), tempEdge.getDest(), tempEdge.getWeight());
+        }
+        return copyGraph;
     }
 
     /**
      * This method loop over the nodes in the graph by first: using BFS algorithm
-     * to check if the graph is connected.aa
+     * to check if the graph is connected.
      * see: https://en.wikipedia.org/wiki/Breadth-first_search
      * second, we use the transpose method to change the narrow direction in directed weighted
      * grpah. At last we use the BFS algorithm to check if the graph is connected again
@@ -46,16 +62,15 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms {
         resetTag();
         if (graph != null) {
             DirectedWeightedGraph transposeGraph = transpose(graph);
-//            System.out.println("graph:" +graph);
-//            System.out.println("Tgraph:" +transposeGraph);
+
             Iterator<NodeData> iter = graph.nodeIter();
-//            if (iter.hasNext()){
             NodeData firstNode = iter.next();
             BFS(firstNode, graph);//first we check BFS algorithm
+
             Iterator<NodeData> iterSecond = transposeGraph.nodeIter();//transpose
             NodeData firstNode2 = iterSecond.next();
             BFS(firstNode2, transposeGraph);//another try of BFS from the same node
-//            }
+
             Iterator<NodeData> iterGraph = graph.nodeIter();
             while (iterGraph.hasNext()){
                 if(iterGraph.next().getTag() == 0){
@@ -122,12 +137,33 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms {
     }
 
     /**
-     * need to fill!!!!!!!!!!
+     *
      * @return
      */
     @Override
     public NodeData center() {
-        return null;
+        NodeData center = null;
+        if (isConnected()) {
+            double minWeight = Double.MAX_VALUE;
+            Iterator<NodeData> nodeIter = graph.nodeIter();
+            while (nodeIter.hasNext()) {
+                NodeData tempNode = nodeIter.next();
+                dijkstra(tempNode.getKey(), -1);
+                double maxWeight = 0;
+                Iterator<NodeData> secondNodeIter = graph.nodeIter();
+                while (secondNodeIter.hasNext()) {
+                    NodeData secondTempNode = secondNodeIter.next();
+                    if (secondTempNode.getWeight() > maxWeight){
+                        maxWeight = secondTempNode.getWeight();
+                    }
+                }
+                if (maxWeight < minWeight){
+                    minWeight = maxWeight;
+                    center = tempNode;
+                }
+            }
+        }
+        return center;
     }
 
     /**
@@ -140,31 +176,37 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms {
      *
      * attention---- the input -list of nodes and not all nodes
      */
+
     @Override
     public List<NodeData> tsp(List<NodeData> cities) {
-        List<NodeData> bestTsp= new ArrayList<>();
-        int curr=0;
-        double temp=Double.MAX_VALUE;
-        int tempIndex=0;
-        double[]dist= new double[cities.size()];
-        //loop every time single node and compare the distance of the other nodes from it.
-        while(bestTsp.size() != cities.size()) {
-            for (int i = 0; i < cities.size(); i++) {
-                if(i==curr) {
-                    dist[i]=Double.MAX_VALUE;
-                }
-                dist[i] = shortestPathDist(cities.get(curr).getKey(), cities.get(i).getKey());
-                if(!bestTsp.contains(dist[i])){
-                    if(dist[i]<temp) {
-                        temp = dist[i];
-                        tempIndex = i;
-                    }
-                }
+        List<NodeData> ans = new ArrayList<>();
+        List<NodeData> citiesSet = new ArrayList<>();
+        double minDist;
+        double tempDist;
+
+        for (NodeData city : cities) {
+            if (!citiesSet.contains(city)) {
+                citiesSet.add(city);
             }
-            bestTsp.add(cities.get(tempIndex));
-            curr++;
         }
-        return bestTsp;
+
+        NodeData currNode = citiesSet.remove(0);
+        ans.add(currNode);
+        NodeData nodeToAdd = null;
+        while (citiesSet.size() > 0){
+            minDist = Double.MAX_VALUE;
+            for ( NodeData n : citiesSet){
+               tempDist =  shortestPathDist(currNode.getKey(), n.getKey());
+               if (tempDist < minDist){
+                   minDist = tempDist;
+                   nodeToAdd = n;
+               }
+            }
+            ans.add(nodeToAdd);
+            citiesSet.remove(nodeToAdd);
+            currNode = nodeToAdd;
+        }
+        return ans;
     }
 
     /**
@@ -240,20 +282,16 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms {
         s.setTag(1);
         queue.add(s);
 
-        while (queue.size() != 0)
-        {
+        while (queue.size() != 0) {
             // Dequeue a vertex from queue and print it
             NodeData curr = queue.poll();
-
             // Get all adjacent vertices of the dequeued vertex s
             // If a adjacent has not been visited, then mark it
             // visited and enqueue it
             Iterator<EdgeData> i = g.edgeIter(curr.getKey());
-            while (i.hasNext())
-            {
+            while (i.hasNext()) {
                 NodeData n = g.getNode(i.next().getDest());
-                if (n.getTag() != 1)
-                {
+                if (n.getTag() != 1) {
                     n.setTag(1);
                     queue.add(n);
                 }
@@ -323,6 +361,7 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms {
             }
         }
     }
+
     //comparator for  weight
     private static class weightComp implements Comparator<NodeData> {
         @Override
@@ -334,6 +373,7 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms {
             return -1;
         }
     }
+
     //helper function which init for the dijkstra function
     public void initTIW(){
         Iterator<NodeData> iterGraph = graph.nodeIter();

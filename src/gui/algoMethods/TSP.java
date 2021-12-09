@@ -14,9 +14,13 @@ import java.awt.*;
 
 public class TSP extends JFrame implements ActionListener {
     private JTextField inputName;
+    private JTextField input;
+
     private JButton selectAll;
     private JButton enter;
     private JLabel textName;
+    private JLabel textwidth;
+
 
     private DirectedWeightedGraphAlgorithms graphAlgo;
 

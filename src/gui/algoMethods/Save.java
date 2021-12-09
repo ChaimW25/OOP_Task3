@@ -11,8 +11,12 @@ import java.awt.*;
 
 public class Save extends JFrame implements ActionListener {
     private JTextField inputName;
+    private JTextField input;
+
     private JButton button;
     private JLabel textName;
+    private JLabel textwidth;
+
 
     private DirectedWeightedGraphAlgorithms graphAlgo;
 

@@ -52,12 +52,14 @@ https://javapointers.com/java/java-se/the-jpanel/
 
 https://sites.google.com/site/simplestjava/jframe
 
-## our algorithm performances
-  
-  ![table](https://user-images.githubusercontent.com/74601548/145377680-9b413fa5-aa2c-4352-b026-1f58b08688ba.jpg)
-
 
 ## UML of our project:
 
 
 ![0001](https://user-images.githubusercontent.com/74601548/145302661-29765296-1ddd-4aac-ad4c-32e99296ad49.jpg)
+  
+  ## our algorithm performances
+  
+  ![table](https://user-images.githubusercontent.com/74601548/145377680-9b413fa5-aa2c-4352-b026-1f58b08688ba.jpg)
+
+

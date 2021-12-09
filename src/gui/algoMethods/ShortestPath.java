@@ -14,9 +14,12 @@ import java.awt.*;
 public class ShortestPath extends JFrame implements ActionListener {
     private JTextField inputSrc;
     private JTextField inputDest;
+    private JTextField input;
+
     private JButton button;
     private JLabel textSrc;
     private JLabel textDest;
+    private JLabel textwidth;
 
     private DirectedWeightedGraphAlgorithms graphAlgo;
 

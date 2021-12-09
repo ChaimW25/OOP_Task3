@@ -5,21 +5,26 @@ import javax.swing.*;
 
 import api.DirectedWeightedGraphAlgorithms;
 
+import api.NodeData;
 
 import java.awt.event.*;
+import java.util.List;
 import java.awt.*;
 
-public class ShortestPathDist extends JFrame implements ActionListener {
+public class ShortestPath extends JFrame implements ActionListener {
     private JTextField inputSrc;
     private JTextField inputDest;
+    private JTextField input;
+
     private JButton button;
     private JLabel textSrc;
     private JLabel textDest;
+    private JLabel textwidth;
 
     private DirectedWeightedGraphAlgorithms graphAlgo;
 
     // default constructor
-    public ShortestPathDist(DirectedWeightedGraphAlgorithms graphAlgo) {
+    public ShortestPath(DirectedWeightedGraphAlgorithms graphAlgo) {
         // create a new frame to store text field and button
         super("Shortest Path Dist");
         this.graphAlgo = graphAlgo;
@@ -85,15 +90,18 @@ public class ShortestPathDist extends JFrame implements ActionListener {
         try {
             int src = Integer.parseInt(inputSrc.getText());
             int dest = Integer.parseInt(inputDest.getText());
-            double dis = graphAlgo.shortestPathDist(src, dest);
+            List<NodeData> path = graphAlgo.shortestPath(src, dest);
             String message;
-            if (dis == -1) {
+            if (path.isEmpty()) {
                 message = "No Path Between " + src + " And " + dest;
             }
             else {
-                message = "The Distance Between " + src + " And " + dest + " Is: " + dis;
+                message = "The Distance Between " + src + " And " + dest + " Is:\n";
+                for (NodeData nodeData : path) {
+                    message += nodeData.getKey() + "->";
+                }
             }
-            JOptionPane.showMessageDialog(new JFrame(), message, "Shortest Path Dist", JOptionPane.DEFAULT_OPTION);
+            JOptionPane.showMessageDialog(new JFrame(), message, "Shortest Path", JOptionPane.DEFAULT_OPTION);
         }
         catch (Exception e) {
             e.printStackTrace();

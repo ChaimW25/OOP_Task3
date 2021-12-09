@@ -12,12 +12,14 @@ import java.util.Iterator;
 
 
 public class Panel extends JPanel {
-    private double minX;
-    private double minY;
-    private double maxX;
-    private double maxY;
-    private double unitX;
-    private double unitY;
+    private double xMin;
+    private double yMin;
+    private double xMax;
+    private double yMax;
+    private double center;
+    private double xUnit;
+    private double yUnit;
+
 
     private DirectedWeightedGraph graph;
 
@@ -41,17 +43,17 @@ public class Panel extends JPanel {
     private void findEdge() {
         Iterator<NodeData> n = graph.nodeIter();
         NodeData node = n.next();
-        minX = node.getLocation().x();
-        minY = node.getLocation().y();
-        maxX = node.getLocation().x();
-        maxY = node.getLocation().y();
+        xMin = node.getLocation().x();
+        yMin = node.getLocation().y();
+        xMax = node.getLocation().x();
+        yMax = node.getLocation().y();
         while (n.hasNext()) {
             node = n.next();
-            minX = Math.min(minX, node.getLocation().x());
-            minY = Math.min(minY, node.getLocation().y());
+            xMin = Math.min(xMin, node.getLocation().x());
+            yMin = Math.min(yMin, node.getLocation().y());
 
-            maxX = Math.max(maxX, node.getLocation().x());
-            maxY = Math.max(maxY, node.getLocation().y());
+            xMax = Math.max(xMax, node.getLocation().x());
+            yMax = Math.max(yMax, node.getLocation().y());
         }
 
     }
@@ -62,8 +64,8 @@ public class Panel extends JPanel {
      */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        unitX = this.getWidth() / Math.abs(maxX - minX) * 0.75;
-        unitY = this.getHeight() / Math.abs(maxY - minY) * 0.75 ;
+        xUnit = this.getWidth() / Math.abs(xMax - xMin) * 0.75;
+        yUnit = this.getHeight() / Math.abs(yMax - yMin) * 0.75 ;
         //drawArrowLine(g, 20, 20, 200, 200, 30, 7);
         //drawLines(g);
         drawEdges(g);
@@ -79,8 +81,8 @@ public class Panel extends JPanel {
         while (iter.hasNext()) {
             NodeData node = iter.next();
             // draw the node
-            int x = (int) ((node.getLocation().x() - minX) * unitX);
-            int y = (int) ((node.getLocation().y() - minY) * unitY);
+            int x = (int) ((node.getLocation().x() - xMin) * xUnit);
+            int y = (int) ((node.getLocation().y() - yMin) * yUnit);
             g.setColor(Color.WHITE);
             g.fillOval(x-1, y-1, 30, 30);
             g.setColor(Color.BLACK);
@@ -100,14 +102,14 @@ public class Panel extends JPanel {
             EdgeData edge = iter.next();
 
             double srcX = graph.getNode(edge.getSrc()).getLocation().x();
-            srcX = ((srcX - minX) * unitX) + 12;
+            srcX = ((srcX - xMin) * xUnit) + 12;
             double srcY = graph.getNode(edge.getSrc()).getLocation().y();
-            srcY = ((srcY - minY) * unitY) + 12;
+            srcY = ((srcY - yMin) * yUnit) + 12;
 
             double destX = graph.getNode(edge.getDest()).getLocation().x();
-            destX = ((destX - minX) * unitX) + 12;
+            destX = ((destX - xMin) * xUnit) + 12;
             double destY = graph.getNode(edge.getDest()).getLocation().y();
-            destY = ((destY - minY) * unitY) + 12;
+            destY = ((destY - yMin) * yUnit) + 12;
 
             g.setColor(Color.PINK);
             drawArrowLine(g, (int) srcX, (int) srcY, (int) destX, (int) destY, 30, 7);
@@ -159,8 +161,8 @@ public class Panel extends JPanel {
     public void addNode(int key, int x, int y) {
         y -= 50;
         x-=5;
-        double newX = (x-12)/unitX + minX;
-        double newY = (y-12)/unitY + minY;
+        double newX = (x-12)/ xUnit + xMin;
+        double newY = (y-12)/ yUnit + yMin;
         graph.addNode(new Node(key,newX+","+newY+",0"));
         repaint();
     }

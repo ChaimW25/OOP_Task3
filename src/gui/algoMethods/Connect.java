@@ -11,11 +11,13 @@ import java.awt.*;
 public class Connect extends JFrame implements ActionListener {
     private JTextField inputSrc;
     private JTextField inputDest;
+    private JTextField input;
     private JTextField inputWeight;
     private JButton button;
     private JLabel textSrc;
     private JLabel textDest;
     private JLabel textWeight;
+    private JLabel textwidth;
 
     private DirectedWeightedGraph graph;
     private Panel panel;

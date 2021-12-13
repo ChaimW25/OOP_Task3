@@ -8,15 +8,17 @@ import java.lang.reflect.Type;
 
 public class Node implements NodeData {
 
-    GeoLocation _pos;
+    private GeoLocation _pos;
     private int _id;
     private double _weight = 0;
     private String _info = "";
     private int _tag = 0;
+    private GeoLocation _oldPos;
 
     public Node(int id, String pos){
         this._pos = new Geo(pos);
         this._id = id;
+        this._oldPos = new Geo(pos);
     }
 
 

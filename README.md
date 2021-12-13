@@ -35,7 +35,7 @@ We implemented additional classes that: first, match between the api commands to
 ## UML of our project:
 
 
-![0001](https://user-images.githubusercontent.com/74601548/145302661-29765296-1ddd-4aac-ad4c-32e99296ad49.jpg)
+![0001](https://user-images.githubusercontent.com/74601548/145879587-8a7c6a62-ab42-423d-b7a2-75372d13af6e.jpg)
 
 ## How does it work?
 

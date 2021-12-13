@@ -127,27 +127,42 @@ public class DWGraph implements DirectedWeightedGraph {
             return null;
         }
 
-        //update edgeCounter according to the number of edges coming out of it.
-        Iterator<EdgeData> iterGraph = edgeIter(key);
-        while (iterGraph.hasNext()) {
-            iterGraph.next();
-            _edgeCounter--;
-            _mcCounter++;
+        NodeData node = Nodes.get(key);
+        Iterator<EdgeData> nodeIter = this.edgeIter();
+        while (nodeIter.hasNext()) {
+            EdgeData tmp = nodeIter.next();
+            int src = tmp.getSrc();
+            int dest = tmp.getDest();
+            if (src == key || dest == key) {
+                removeEdge(src, dest);
+                _mcCounter--;
+            }
         }
-
-        //update edgeCounter according to the number of edges coming in of it.
-        for (int e : destToSrc.get(key).keySet()){
-            _edgeCounter--;
-            _mcCounter++;
-        }
-
-        NodeData removeNode = Nodes.get(key);
         Nodes.remove(key);
-        Edges.remove(key);
-        destToSrc.remove(key);
         _mcCounter++;
-        _nodeCounter--;
-        return removeNode;
+        return node;
+
+//        //update edgeCounter according to the number of edges coming out of it.
+//        Iterator<EdgeData> iterGraph = edgeIter(key);
+//        while (iterGraph.hasNext()) {
+//            iterGraph.next();
+//            _edgeCounter--;
+//            _mcCounter++;
+//        }
+//
+//        //update edgeCounter according to the number of edges coming in of it.
+//        for (int e : destToSrc.get(key).keySet()){
+//            _edgeCounter--;
+//            _mcCounter++;
+//        }
+//
+//        NodeData removeNode = Nodes.get(key);
+//        Nodes.remove(key);
+//        Edges.remove(key);
+//        destToSrc.remove(key);
+//        _mcCounter++;
+//        _nodeCounter--;
+//        return removeNode;
     }
 
     /**

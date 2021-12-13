@@ -109,7 +109,7 @@ class DWGraphTest {
         graph.connect(0,2,8.9);
         try{
             EdgeData e = secondIter.next();
-            fail("Expected an RuntimeException to be thrown");
+            fail("Expect1ed an RuntimeException to be thrown");
         }
         catch (RuntimeException e){
             System.out.println("the test succeed!");
@@ -175,6 +175,6 @@ class DWGraphTest {
         graph.connect(1,7,4);
         assertEquals(8, graph.getMC());
         graph.removeNode(0);
-        assertEquals(11, graph.getMC());
+        assertEquals(9, graph.getMC());
     }
 }

@@ -59,17 +59,20 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms {
      */
     @Override
     public boolean isConnected() {
-        resetTag();
         if (graph != null) {
-            DirectedWeightedGraph transposeGraph = transpose(graph);
+            DirectedWeightedGraph transposeGraph = new DWGraph();
+            transposeGraph = transpose(graph);
+            System.out.println(transposeGraph);
 
             Iterator<NodeData> iter = graph.nodeIter();
             NodeData firstNode = iter.next();
             BFS(firstNode, graph);//first we check BFS algorithm
+            System.out.println(graph);
 
             Iterator<NodeData> iterSecond = transposeGraph.nodeIter();//transpose
             NodeData firstNode2 = iterSecond.next();
             BFS(firstNode2, transposeGraph);//another try of BFS from the same node
+            System.out.println(transposeGraph);
 
             Iterator<NodeData> iterGraph = graph.nodeIter();
             while (iterGraph.hasNext()){
@@ -261,7 +264,7 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms {
         return graph.toString();
     }
 
-    public void resetTag(){
+    public void resetTag(DirectedWeightedGraph graph){
         Iterator<NodeData> iterGraph = graph.nodeIter();
         while (iterGraph.hasNext()){
             iterGraph.next().setTag(0);
@@ -276,7 +279,7 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms {
      */
     // prints BFS traversal from a given source s
     public void BFS(NodeData s, DirectedWeightedGraph g) {
-        resetTag();
+        resetTag(g);
         LinkedList<NodeData> queue = new LinkedList<>();
         // Mark the current node as visited and enqueue it
         s.setTag(1);
@@ -310,7 +313,8 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms {
         DirectedWeightedGraph transposeG = new DWGraph();
         Iterator<NodeData> nodeIter = g.nodeIter();
         while (nodeIter.hasNext()) {
-            transposeG.addNode(nodeIter.next());
+            NodeData tempNode = nodeIter.next();
+            transposeG.addNode(new Node(tempNode.getKey(), tempNode.getLocation().toString()));
         }
         //using a loop to change all the edges direction
         Iterator<EdgeData> edgeIter = g.edgeIter();

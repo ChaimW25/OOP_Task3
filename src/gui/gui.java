@@ -440,8 +440,6 @@ public class gui extends JFrame implements ActionListener, MouseListener {
 
         else if (e.getSource() == save){
             String name = JOptionPane.showInputDialog("Enter the name of the file:");
-//            String path = System.getProperty("user.dir") + "\\data\\";
-//            if (graphAlgo.save(path + name + ".json")){
             if (graphAlgo.save(  name + ".json")){
                     JOptionPane.showMessageDialog(new JFrame(), "The file saved", "save", JOptionPane.PLAIN_MESSAGE);
                 }

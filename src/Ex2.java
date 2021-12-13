@@ -1,7 +1,6 @@
-package apiImplementations;
-
 import api.DirectedWeightedGraph;
 import api.DirectedWeightedGraphAlgorithms;
+import apiImplementations.DWGAlgo;
 import gui.gui;
 
 /**
@@ -40,7 +39,8 @@ public class Ex2 {
     }
 
     public static void main(String[] args) {
-        runGUI(args[0]);
+        String path = System.getProperty("user.dir") + "\\data\\";
+        runGUI(path + args[0]);
     }
 }
 

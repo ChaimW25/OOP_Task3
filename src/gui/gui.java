@@ -1,4 +1,4 @@
-package myGui;
+package gui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -223,7 +223,7 @@ public class gui extends JFrame implements ActionListener, MouseListener {
     private void drawEdge(EdgeData edge, Graphics g) {
         Geo src = (Geo) graph.getNode(edge.getSrc()).getLocation();
         Geo dest = (Geo) graph.getNode(edge.getDest()).getLocation();
-        Arrow arrow = new Arrow((int) src.x(), (int) src.y(), (int) dest.x(), (int) dest.y(), Color.WHITE, 1);
+        myGui.Arrow arrow = new myGui.Arrow((int) src.x(), (int) src.y(), (int) dest.x(), (int) dest.y(), Color.WHITE, 1);
         arrow.draw(g);
     }
 
@@ -428,23 +428,26 @@ public class gui extends JFrame implements ActionListener, MouseListener {
 
         else if (e.getSource() == load){
             String name = JOptionPane.showInputDialog("Enter the name of the file:");
-            String path = System.getProperty("user.dir") + "\\data\\";
-            graphAlgo.load(path + name);
-            graph = graphAlgo.getGraph();
-            scale();
-            repaint();
-        }
-
-        else if (e.getSource() == save){
-            String name = JOptionPane.showInputDialog("Enter the name of the file:");
-            String path = System.getProperty("user.dir") + "\\data\\";
-            if (graphAlgo.save(path + name + ".json")){
-                JOptionPane.showMessageDialog(new JFrame(), "The file saved", "save", JOptionPane.PLAIN_MESSAGE);
+            if (graphAlgo.load(name)){
+                graph = graphAlgo.getGraph();
+                scale();
+                repaint();
             }
             else {
                 JOptionPane.showMessageDialog(new JFrame(), "Error, try again", JOptionPane.INPUT_VALUE_PROPERTY, JOptionPane.ERROR_MESSAGE);
             }
+        }
 
+        else if (e.getSource() == save){
+            String name = JOptionPane.showInputDialog("Enter the name of the file:");
+//            String path = System.getProperty("user.dir") + "\\data\\";
+//            if (graphAlgo.save(path + name + ".json")){
+            if (graphAlgo.save(  name + ".json")){
+                    JOptionPane.showMessageDialog(new JFrame(), "The file saved", "save", JOptionPane.PLAIN_MESSAGE);
+                }
+                else {
+                    JOptionPane.showMessageDialog(new JFrame(), "Error, try again", JOptionPane.INPUT_VALUE_PROPERTY, JOptionPane.ERROR_MESSAGE);
+                }
         }
 
     }

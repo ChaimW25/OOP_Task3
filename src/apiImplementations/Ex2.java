@@ -2,8 +2,7 @@ package apiImplementations;
 
 import api.DirectedWeightedGraph;
 import api.DirectedWeightedGraphAlgorithms;
-import gui.Frame;
-import myGui.gui;
+import gui.gui;
 
 /**
  * This class is the main class for Ex2 - your implementation will be tested using this class.
@@ -41,9 +40,7 @@ public class Ex2 {
     }
 
     public static void main(String[] args) {
-        String path = System.getProperty("user.dir") + "\\data\\";
-        String json_file = "G1.json";
-        runGUI(path + json_file);
+        runGUI(args[0]);
     }
 }
 

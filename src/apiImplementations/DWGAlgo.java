@@ -60,19 +60,15 @@ public class DWGAlgo implements DirectedWeightedGraphAlgorithms {
     @Override
     public boolean isConnected() {
         if (graph != null) {
-            DirectedWeightedGraph transposeGraph = new DWGraph();
-            transposeGraph = transpose(graph);
-            System.out.println(transposeGraph);
+            DirectedWeightedGraph transposeGraph = transpose(graph);
 
             Iterator<NodeData> iter = graph.nodeIter();
             NodeData firstNode = iter.next();
             BFS(firstNode, graph);//first we check BFS algorithm
-            System.out.println(graph);
 
             Iterator<NodeData> iterSecond = transposeGraph.nodeIter();//transpose
             NodeData firstNode2 = iterSecond.next();
             BFS(firstNode2, transposeGraph);//another try of BFS from the same node
-            System.out.println(transposeGraph);
 
             Iterator<NodeData> iterGraph = graph.nodeIter();
             while (iterGraph.hasNext()){

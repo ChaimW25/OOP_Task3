@@ -3,6 +3,7 @@ package apiImplementations;
 import api.DirectedWeightedGraph;
 import api.DirectedWeightedGraphAlgorithms;
 import gui.Frame;
+import myGui.gui;
 
 /**
  * This class is the main class for Ex2 - your implementation will be tested using this class.
@@ -35,14 +36,14 @@ public class Ex2 {
      */
     public static void runGUI(String json_file) {
         DirectedWeightedGraphAlgorithms graphAlgo = getGrapgAlgo(json_file);
-        new Frame(graphAlgo);
+        gui g = new gui(graphAlgo.getGraph());
+        g.setVisible(true);
     }
 
     public static void main(String[] args) {
         String path = System.getProperty("user.dir") + "\\data\\";
         String json_file = "G1.json";
-        runGUI("C:\\Users\\USER\\Downloads\\OOP--Ex2-\\OOP--Ex2-main\\data\\G1.json");
+        runGUI(path + json_file);
     }
 }
-
 

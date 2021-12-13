@@ -251,7 +251,7 @@ void copy() {
         //test that the new node not connect to any node
         assertEquals(0, graphAlgo.getGraph().getNode(4).getTag());
         graphAlgo.getGraph().removeEdge(2,3);
-        graphAlgo.resetTag();
+        graphAlgo.resetTag(graph);
         graphAlgo.BFS(graphAlgo.getGraph().getNode(0), graphAlgo.getGraph());
         assertEquals(0, graphAlgo.getGraph().getNode(3).getTag());
 
@@ -271,7 +271,7 @@ void copy() {
     @Test
     void resetTag(){
         graphAlgo.isConnected();
-        graphAlgo.resetTag();
+        graphAlgo.resetTag(graph);
         for (int i = 0; i < 4; i++) {
             assertEquals(0, graphAlgo.getGraph().getNode(i).getTag());
         }
@@ -280,7 +280,6 @@ void copy() {
 //    @Test
 //    void json1000(){
 //        //test to find the center in G1:
-//        //test preformats in graph with 1,000 nodes:
 //        String path = System.getProperty("user.dir") + "\\data\\";
 //        DirectedWeightedGraphAlgorithms graph1000 = new DWGAlgo();
 //        graph1000.load(path + "1000Nodes.json");
@@ -290,31 +289,21 @@ void copy() {
 
 //    @Test
 //    void json10000(){
-//        //test to find the center in G1:
-//        //test preformats in graph with 10,000 nodes:
+        //test to find the center in G1:
 //        String path = System.getProperty("user.dir") + "\\data\\";
 //        DirectedWeightedGraphAlgorithms graph10000 = new DWGAlgo();
 //        graph10000.load(path + "10000Nodes.json");
 //        assertEquals(3846, graph10000.center().getKey());
 //        assertTrue(graph10000.isConnected());
 //    }
-
+//
 //    @Test
 //    void json100000() {
-//        //test to find the center in G1:
+        //test to find the center in G1:
 //        String path = System.getProperty("user.dir") + "\\data\\";
 //        DirectedWeightedGraphAlgorithms graph100000 = new DWGAlgo();
 //        graph100000.load(path + "100000Nodes.json");
 //        assertEquals(3846, graph100000.center().getKey());
-//        assertTrue(graph100000.isConnected());
-//    }
-
-//    @Test
-//    void json1000000() {
-//        //test preformats in graph with 100,000 nodes:
-//        String path = System.getProperty("user.dir") + "\\data\\";
-//        DirectedWeightedGraphAlgorithms graph100000 = new DWGAlgo();
-//        graph100000.load(path + "100000Nodes.json");
 //        assertTrue(graph100000.isConnected());
 //    }
 

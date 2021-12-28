@@ -5,7 +5,7 @@
 
 ## Directed Weighted Graph
 
-In this task we implemented interfaces that creates a Directed Weighted Graph build from nodes and edges, later, we implemented algorithms class which run algorithms on the graph and w created a GUI to present our code in a graphic way. 
+In this task we implemented interfaces that creates a Directed Weighted Graph build from nodes and edges, later, we implemented algorithms class which run algorithms on the graph and then created a GUI to present our code in a graphic way. 
 
 
 
